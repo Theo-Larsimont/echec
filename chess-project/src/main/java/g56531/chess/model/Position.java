@@ -38,7 +38,18 @@ public class Position {
         return column;
     }
     
-    
-    
-    
+    /**
+     * Returns a new position according to the requested direction
+     * @param dir Direction requested 
+     * @return newPos next Position
+     */
+    public Position next(Direction dir){
+        var nextRow = row + dir.getDeltaRow();
+        var nextColumn = column + dir.getDeltaColmun();
+        
+        Position nextPos = new Position(nextRow, nextColumn);
+        
+        return nextPos;  
+        
+    }
 }
