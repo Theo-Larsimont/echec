@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * chess board
+ * chess board.
  * @author larsi
  */
 public class Board {
     private Square [][] board;
 
     /**
-     * Initialize a new 8 x 8 board without any piece
+     * Initialize a new 8 x 8 board without any piece.
      * @param squares 
      */
     public Board() {
@@ -23,7 +23,7 @@ public class Board {
     }
 
     /**
-     * check if the position is in the table
+     * check if the position is in the table.
      * @param pos to check
      * @return true if the pos is in board
      */
@@ -41,7 +41,7 @@ public class Board {
     }
     
     /**
-     * Allows you to know if the pawn is still in its initial place
+     * Allows you to know if the pawn is still in its initial place.
      * @param color
      * @return int for the color BLACK and 6 for the color WHITE
      */
@@ -59,7 +59,7 @@ public class Board {
     
     /**
      * Place a piece on the board at a given position
-     * if the position is not on the board it throws an exception
+     * if the position is not on the board it throws an exception.
      * @param piece that we want to place
      * @param position position in which we want to place it
      */
@@ -68,12 +68,16 @@ public class Board {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
         }
-        board[position.getRow()][position.getColumn()] = new Square(piece);
+        if(board[position.getRow()][position.getColumn()] == null){
+            board[position.getRow()][position.getColumn()] = new Square(piece);
+        }else{
+            board[position.getRow()][position.getColumn()].setPiece(piece);
+        }
     }
     
     /**
      * Gives the piece to the positioned
-     * if the position is not on the board it throws an exception
+     * if the position is not on the board it throws an exception.
      * @param position
      * @return piece 
      */
@@ -87,7 +91,7 @@ public class Board {
     
     /**
      * Delete the piece on the square at the given position
-     * if the position is not on the board it throws an exception
+     * if the position is not on the board it throws an exception.
      * @param position 
      */
     public void dropPiece(Position position){
@@ -96,12 +100,15 @@ public class Board {
                     + "sur le plateau");
          }
         
-        board[position.getRow()][position.getColumn()] = new Square(null);
+        if(board[position.getRow()][position.getColumn()] == null){
+            board[position.getRow()][position.getColumn()] = new Square(null);
+        }
+        board[position.getRow()][position.getColumn()].setPiece(null);
     }
     
     /**
      * Returns if the box at the given position is free
-     * if the position is not on the board it throws an exception
+     * if the position is not on the board it throws an exception.
      * @param position
      * @return true if is free
      */
@@ -119,47 +126,52 @@ public class Board {
     
     /**
      * Check if the color of the piece at the given position is opposite 
-     * to the color given in parameter
+     * to the color given in parameter.
      * @param position
      * @param color
      * @return true if the color is opposite
      */
     public boolean containsOppositeColor(Position position, Color color){
-        var oppositeColor = false;
+        boolean oppositeColor = false;
          if(!contains(position)){
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
          }
-
-         // piece color
-         Color colorPiceInSqure = board[position.getRow()][position.getColumn()]
-                 .getPiece().getColor();
          
-         if(color == colorPiceInSqure.opposite()){
-             oppositeColor = true;
+         // return false if the suqare is null 
+         if(isFree(position)){
+             return oppositeColor;
          }
          
+         //piece color 
+         Color colorPiceInSquare = board[position.getRow()][position.getColumn()]
+                 .getPiece().getColor();
+         
+         if (color == colorPiceInSquare.opposite()){
+             oppositeColor = true;
+         }
          return oppositeColor;
     }
     
     /**
-     * returns all positions occupied by the player
+     * Returns all positions occupied by the player.
      * @param player
      * @return List with all the positions that the player occupies
      */
-    public List<Position> getPositionOccupiedBy(Player player){
-        var occupied = new ArrayList<Position>();
+    public List<Position> getPositionsOccupiedBy(Player player){
+        List<Position> occuped = new ArrayList<>();
         
-        for (var line = 0; line < board.length; line++) {
-            for(var col = 0; col < board[line].length; col++){
-                board[line][col].getPiece().getColor();
-                if(board[line][col].getPiece().getColor() == player.getColor()){
-                    occupied.add(new Position(line, col));
+        for(int line = 0; line < board.length; ++line ){
+            for(int col = 0; col < board[line].length; ++col){
+                Position pos = new Position(line, col);
+                if( !isFree(pos) && 
+                        board[line][col].getPiece().getColor() == player.getColor()){
+                    occuped.add(pos);
                 }
             }
         }
-        
-        return occupied;
+        return occuped;
     }
+       
     
 }

@@ -5,21 +5,21 @@
 package g56531.chess.model;
 
 /**
- *player camp
+ * Player
  * @author larsi
  */
 public class Player {
     private Color color;
 
     /**
-     * player piece color
+     * Player piece color.
      * @param color 
      */
     public Player(Color color) {
         this.color = color;
     }
     /**
-    * give the player piece color
+    * Give the player piece color.
     * @return color
     */
     public Color getColor() {

@@ -5,7 +5,7 @@
 package g56531.chess.model;
 
 /**
- * Gives a direction taken by the pawn
+ * Gives a direction taken by the pawn.
  * @author larsi
  */
 public enum Direction {
@@ -15,7 +15,7 @@ public enum Direction {
     private int deltaColmun;
 
     /**
-     * Initialize direction values
+     * Initialize direction values.
      * @param deltaR
      * @param deltaC 
      */
@@ -25,16 +25,16 @@ public enum Direction {
     }
 
     /**
-     * give deltaR
-     * @return deltaRow
+     * Give deltaR.
+     * @return deltaRow.
      */
     public int getDeltaRow() {
         return deltaRow;
     }
     
     /**
-     * give deltaC
-     * @return deltaColumn
+     * Give deltaC.
+     * @return deltaColumn.
      */
     public int getDeltaColmun() {
         return deltaColmun;

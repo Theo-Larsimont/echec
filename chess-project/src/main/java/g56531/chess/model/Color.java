@@ -5,17 +5,17 @@
 package g56531.chess.model;
 
 /**
- * color of a player, a piece or a square
+ * Represents color of a player, a piece or a square.
  * @author larsi
  */
 public enum Color {
     WHITE,BLACK;
     
     /**
-     * Gives the opposite Color
-     * @return Color
+     * Gives the opposite Color.
+     * @return Color.
      */
-    public Color oppsoite(){
+    public Color opposite(){
         if(Color.this == WHITE){
             return BLACK;
         }else{

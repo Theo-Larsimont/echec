@@ -5,14 +5,14 @@
 package g56531.chess.model;
 
 /**
- * game piece
+ * Game piece.
  * @author larsi
  */
 public class Piece {
     private Color color;
 
     /**
-     * Contructor of game piece
+     * Contructor of game piece.
      * @param color 
      */
     public Piece(Color color) {
@@ -20,7 +20,7 @@ public class Piece {
     }
 
     /**
-     * give the color of piece
+     * Give the color of piece.
      * @return color
      */
     public Color getColor() {

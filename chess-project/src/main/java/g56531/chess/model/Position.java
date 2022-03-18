@@ -5,25 +5,25 @@
 package g56531.chess.model;
 
 /**
- * Indicates the position on the game board
+ * Indicates the position on the game board.
  * @author larsi
  */
 public class Position {
     private int row;
     private int column;
 
-/**
- * position on the chess board
- * @param row of tab chess
- * @param column of tab chess
- */
+    /**
+    * Position on the chess board.
+    * @param row of tab chess.
+    * @param column of tab chess.
+    */
     public Position(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
     /**
-     * give the row 
+     * Give the row. 
      * @return row
      */
     public int getRow() {
@@ -31,7 +31,7 @@ public class Position {
     }
 
     /**
-     * give the column
+     * Give the column.
      * @return column
      */
     public int getColumn() {
@@ -39,9 +39,9 @@ public class Position {
     }
     
     /**
-     * Returns a new position according to the requested direction
-     * @param dir Direction requested 
-     * @return newPos next Position
+     * Returns a new position according to the requested direction.
+     * @param dir Direction requested. 
+     * @return newPos next Position.
      */
     public Position next(Direction dir){
         var nextRow = row + dir.getDeltaRow();
