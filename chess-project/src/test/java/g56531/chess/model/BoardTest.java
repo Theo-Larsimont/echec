@@ -135,7 +135,7 @@ public class BoardTest {
             expected.add(new Position(1,i));
         }
         
-        positions = board.getPositionOccupiedBy(player);
+        positions = board.getPositionsOccupiedBy(player);
         
         assertEqualsIgnoringOrder(positions,expected);   
     } 
@@ -158,7 +158,7 @@ public class BoardTest {
         board.setPiece(new Piece(color), new Position(5,5));
         expected.add(new Position(5,5));
         
-        positions = board.getPositionOccupiedBy(player);
+        positions = board.getPositionsOccupiedBy(player);
         
         /* Test if the two lists contain exactly the same elements,
         independently of the order of the elements. */
@@ -178,7 +178,7 @@ public class BoardTest {
             expected.add(new Position(6,i));
         }
         
-        positions = board.getPositionOccupiedBy(player);
+        positions = board.getPositionsOccupiedBy(player);
         
         /* Test if the two lists contain exactly the same elements,
         independently of the order of the elements. */
@@ -205,7 +205,7 @@ public class BoardTest {
         board.setPiece(new Piece(color), new Position(1,7));
         expected.add(new Position(1,7));
         
-        positions = board.getPositionOccupiedBy(player);
+        positions = board.getPositionsOccupiedBy(player);
         
         assertEqualsIgnoringOrder(positions,expected);
     }
@@ -217,7 +217,7 @@ public class BoardTest {
         Player player = new Player(color);
         List<Position> positions; 
         
-        positions = board.getPositionOccupiedBy(player);
+        positions = board.getPositionsOccupiedBy(player);
            
         assertTrue(positions.isEmpty());
     }
