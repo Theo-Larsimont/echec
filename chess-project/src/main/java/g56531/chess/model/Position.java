@@ -27,7 +27,7 @@ public class Position {
      * @return row
      */
     public int getRow() {
-        return row;
+        return this.row;
     }
 
     /**
@@ -35,7 +35,7 @@ public class Position {
      * @return column
      */
     public int getColumn() {
-        return column;
+        return this.column;
     }
     
     /**
@@ -44,8 +44,8 @@ public class Position {
      * @return newPos next Position.
      */
     public Position next(Direction dir){
-        var nextRow = row + dir.getDeltaRow();
-        var nextColumn = column + dir.getDeltaColmun();
+        var nextRow = this.row + dir.getDeltaRow();
+        var nextColumn = this.column + dir.getDeltaColmun();
         
         Position nextPos = new Position(nextRow, nextColumn);
         
