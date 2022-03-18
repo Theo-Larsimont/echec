@@ -5,7 +5,7 @@
 package g56531.chess.model;
 
 /**
- * Represents one of the 64 squares of the game.
+ * Represents one of the 64 squares of the game .
  * @author larsi
  */
 public class Square {
