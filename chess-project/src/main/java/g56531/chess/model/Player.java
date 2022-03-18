@@ -23,7 +23,7 @@ public class Player {
     * @return color
     */
     public Color getColor() {
-        return color;
+        return this.color;
     }
     
     

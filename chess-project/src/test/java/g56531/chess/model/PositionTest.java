@@ -14,34 +14,70 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PositionTest {
     
     @Test
-    public void nextDirectionRowWithPositiveValue(){
+    public void nextDirectionN(){
         Position pos1 = new Position(4,4);
+        Position expected = new Position(5,4);
         Position nextPos = pos1.next(Direction.N);
-        var nextRow = nextPos.getRow();
-        assertEquals(5,nextRow);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
+    }
+    
+    @Test
+    public void nextDirectionNE(){
+        Position pos1 = new Position(4,4);
+        Position expected = new Position(5,5);
+        Position nextPos = pos1.next(Direction.NE);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
     }
     
      @Test
-    public void nextDirectionColumnWithPositiveValue(){
+    public void nextDirectionNW(){
         Position pos1 = new Position(4,4);
-        Position nextPos = pos1.next(Direction.N);
-        var nextCol = nextPos.getColumn();
-        assertEquals(4,nextCol);
+        Position expected = new Position(5,3);
+        Position nextPos = pos1.next(Direction.NW);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
     }
     
-      @Test
-    public void nextDirectionRowWithNagativeValue(){
+    @Test
+    public void nextDirectionW(){
         Position pos1 = new Position(4,4);
-        Position nextPos = pos1.next(Direction.SW);
-        var nextRow = nextPos.getRow();
-        assertEquals(3,nextRow);
+        Position expected = new Position(4,3);
+        Position nextPos = pos1.next(Direction.W);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
     }
-    
-     @Test
-    public void nextDirectionColumnWithNagativeValue(){
+    @Test
+    public void nextDirectionE(){
         Position pos1 = new Position(4,4);
+        Position expected = new Position(4,5);
+        Position nextPos = pos1.next(Direction.E);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
+    }
+    @Test
+    public void nextDirectionS(){
+        Position pos1 = new Position(4,4);
+        Position expected = new Position(3,4);
+        Position nextPos = pos1.next(Direction.S);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
+    }
+    @Test
+    public void nextDirectionSW(){
+        Position pos1 = new Position(4,4);
+        Position expected = new Position(3,3);
         Position nextPos = pos1.next(Direction.SW);
-        var nextCol = nextPos.getColumn();
-        assertEquals(3,nextCol);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
+    }
+    @Test
+    public void nextDirectionSE(){
+        Position pos1 = new Position(4,4);
+        Position expected = new Position(3,5);
+        Position nextPos = pos1.next(Direction.SE);
+        assertEquals(expected.getRow(),nextPos.getRow());
+        assertEquals(expected.getColumn(), nextPos.getColumn());
     }
 }
