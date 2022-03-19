@@ -16,8 +16,7 @@ public enum Color {
      * @return Color.
      */
     public Color opposite(){
-        Color color = Color.this;
-        return color == WHITE ? WHITE : BLACK;
+        return Color.this == WHITE ? BLACK : WHITE;
         
     }
 }
