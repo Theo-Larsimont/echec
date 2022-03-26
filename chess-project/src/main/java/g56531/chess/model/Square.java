@@ -5,15 +5,22 @@
 package g56531.chess.model;
 
 /**
- * Represents one of the 64 squares of the game .
+ * Represents one of the 64 squares of the game.
+ *
  * @author larsi
  */
 public class Square {
+
     private Piece piece;
+
+    public Square() {
+        this.piece = null;
+    }
 
     /**
      * Put a piece in a square.
-     * @param piece 
+     *
+     * @param piece
      */
     public Square(Piece piece) {
         this.piece = piece;
@@ -21,6 +28,7 @@ public class Square {
 
     /**
      * Give the coin on the square.
+     *
      * @return piece.
      */
     public Piece getPiece() {
@@ -29,23 +37,25 @@ public class Square {
 
     /**
      * Change the piece of the square.
-     * @param piece. 
+     *
+     * @param piece.
      */
     public void setPiece(Piece piece) {
         this.piece = piece;
     }
-    
+
     /**
      * Indicates if the square is free.
+     *
      * @return squareFree true if the square is free.
      */
-    public boolean isFree(){
+    public boolean isFree() {
         var squareFree = false;
-        if(piece == null){
+        if (piece == null) {
             squareFree = true;
         }
-        
+
         return squareFree;
     }
-    
+
 }

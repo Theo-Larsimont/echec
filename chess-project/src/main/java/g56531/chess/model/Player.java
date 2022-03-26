@@ -25,6 +25,11 @@ public class Player {
     public Color getColor() {
         return this.color;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" + "color=" + color + '}';
+    }
     
     
     

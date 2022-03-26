@@ -12,14 +12,19 @@ import java.util.ArrayList;
  * @author larsi
  */
 public class Board {
-    private Square [][] board;
+    private Square [][] squares;
 
     /**
      * Initialize a new 8 x 8 board without any piece.
      * @param squares 
      */
     public Board() {
-        this.board = new Square[8][8];
+        this.squares = new Square[8][8];
+        for(int line = 0; line < 8; ++line){
+            for( int col = 0; col <8; ++col){
+                squares[line][col] = new Square(null);
+            }
+        }
     }
 
     /**
@@ -30,8 +35,8 @@ public class Board {
     public boolean contains(Position pos){
         var inGame = false;
         
-        if(pos.getColumn() < board.length
-                && pos.getRow() < board.length
+        if(pos.getColumn() < squares.length
+                && pos.getRow() < squares.length
                 && -1 < pos.getRow()
                 && -1 < pos.getColumn()){
             inGame = true;
@@ -68,10 +73,10 @@ public class Board {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
         }
-        if(board[position.getRow()][position.getColumn()] == null){
-            board[position.getRow()][position.getColumn()] = new Square(piece);
+        if(squares[position.getRow()][position.getColumn()] == null){
+            squares[position.getRow()][position.getColumn()] = new Square(piece);
         }else{
-            board[position.getRow()][position.getColumn()].setPiece(piece);
+            squares[position.getRow()][position.getColumn()].setPiece(piece);
         }
     }
     
@@ -86,7 +91,7 @@ public class Board {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
          }
-        return board[position.getRow()][position.getColumn()].getPiece();
+        return squares[position.getRow()][position.getColumn()].getPiece();
     }
     
     /**
@@ -100,10 +105,10 @@ public class Board {
                     + "sur le plateau");
          }
         
-        if(board[position.getRow()][position.getColumn()] == null){
-            board[position.getRow()][position.getColumn()] = new Square(null);
+        if(squares[position.getRow()][position.getColumn()] == null){
+            squares[position.getRow()][position.getColumn()] = new Square(null);
         }
-        board[position.getRow()][position.getColumn()].setPiece(null);
+        squares[position.getRow()][position.getColumn()].setPiece(null);
     }
     
     /**
@@ -118,7 +123,8 @@ public class Board {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
          }
-        if(board[position.getRow()][position.getColumn()] == null){
+        if(squares[position.getRow()][position.getColumn()].isFree()){
+            System.out.println("free");
             squareFree = true;
         }
         return squareFree;
@@ -144,7 +150,7 @@ public class Board {
          }
          
          //piece color 
-         Color colorPiceInSquare = board[position.getRow()][position.getColumn()]
+         Color colorPiceInSquare = squares[position.getRow()][position.getColumn()]
                  .getPiece().getColor();
          
          if (color == colorPiceInSquare.opposite()){
@@ -161,17 +167,22 @@ public class Board {
     public List<Position> getPositionsOccupiedBy(Player player){
         List<Position> occuped = new ArrayList<>();
         
-        for(int line = 0; line < board.length; ++line ){
-            for(int col = 0; col < board[line].length; ++col){
+        for(int line = 0; line < squares.length; ++line ){
+            for(int col = 0; col < squares[line].length; ++col){
                 Position pos = new Position(line, col);
                 if( !isFree(pos) && 
-                        board[line][col].getPiece().getColor() == player.getColor()){
+                        squares[line][col].getPiece().getColor() == player.getColor()){
                     occuped.add(pos);
                 }
             }
         }
         return occuped;
     }
-       
-    
+   
+    public static void main(String[] args) {
+          Board board = new Board();
+        Position pos = new Position(5, 2);
+        board.isFree(pos);
+        System.out.println(board.squares[pos.getRow()][pos.getColumn()]);
+    }
 }

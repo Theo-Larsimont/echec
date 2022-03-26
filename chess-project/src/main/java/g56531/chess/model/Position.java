@@ -39,6 +39,11 @@ public class Position {
     }
 
     @Override
+    public String toString() {
+        return  row + ":" + column;
+    }
+
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 89 * hash + this.row;
