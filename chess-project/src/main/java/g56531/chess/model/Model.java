@@ -79,6 +79,5 @@ public interface Model {
      * @return the liste of admissible positions.
      */
     public List<Position> getPossibleMoves(Position position);
-
 }
 

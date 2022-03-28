@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author larsi
  */
-public class Game implements Model {
+public class Game implements Model{
 
     private Board board;
     private Player white;
@@ -27,7 +27,6 @@ public class Game implements Model {
     public Board getBoard() {
         return board;
     }
-    
 
     /**
      * Start the game: create the pieces and put them on the board, initialize
@@ -37,8 +36,8 @@ public class Game implements Model {
     public void start() {
         currentPlayer = white;
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
-            board.setPiece(new Piece(Color.WHITE), new Position(1, colWhite));
-            board.setPiece(new Piece(Color.BLACK), new Position(6, colBlack));
+            board.setPiece(new Piece(Color.WHITE), new Position(6, colWhite));
+            board.setPiece(new Piece(Color.BLACK), new Position(1, colBlack));
         }
     }
 
@@ -75,7 +74,7 @@ public class Game implements Model {
      */
     @Override
     public Player getOppositePlayer() {
-        return  currentPlayer.getColor() ==  Color.WHITE ? black : white; 
+        return currentPlayer.getColor() == Color.WHITE ? black : white;
     }
 
     /**
@@ -106,29 +105,29 @@ public class Game implements Model {
      *
      * @param oldPos the current position
      * @param newPos the new position of the board where to put the piece
-     * @throws IllegalArgumentException if 
-     *                                  1) oldPos or newPos are not located on the board, or 
-     *                                  2) oldPos does not contain a piece, or
-     *                                  3) the piece does not belong to the current player, or 
-     *                                  4) the move is not valid for the piece located at position oldPos
+     * @throws IllegalArgumentException if 1) oldPos or newPos are not located
+     * on the board, or 2) oldPos does not contain a piece, or 3) the piece does
+     * not belong to the current player, or 4) the move is not valid for the
+     * piece located at position oldPos
      */
     @Override
     public void movePiecePosition(Position oldPos, Position newPos) {
         if (!board.contains(newPos) || !board.contains(oldPos)) {
             throw new IllegalArgumentException(" oldPos or newPos are not located on the board");
         }
-        if(board.isFree(oldPos)){
+        if (board.isFree(oldPos)) {
             throw new IllegalArgumentException("oldPos does not contain a piece");
         }
-        if( board.getPiece(oldPos).getColor() != currentPlayer.getColor()){
+        if (board.getPiece(oldPos).getColor() != currentPlayer.getColor()) {
             throw new IllegalArgumentException(" othe piece does not belong to the current player");
         }
-        if(!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)){
+        if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
             throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
         }
-        if(!this.isGameOver()){
+        if (!this.isGameOver()) {
             board.setPiece(new Piece(currentPlayer.getColor()), newPos);
             board.dropPiece(oldPos);
+            currentPlayer = getOppositePlayer();
         }
     }
 

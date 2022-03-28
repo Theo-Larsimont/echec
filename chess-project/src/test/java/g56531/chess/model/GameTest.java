@@ -45,14 +45,14 @@ public class GameTest {
     @Test
     public void isCurrentPlayerPositionTrue() {
         game.start();
-        Position pos = new Position(1, 1);
+        Position pos = new Position(6, 1);
         assertTrue(game.isCurrentPlayerPosition(pos));
     }
 
     @Test
     public void isCurrentPlayerPositionFalseIsOppositePlayer() {
         game.start();
-        Position pos = new Position(6, 1);
+        Position pos = new Position(1, 1);
         assertFalse(game.isCurrentPlayerPosition(pos));
     }
 

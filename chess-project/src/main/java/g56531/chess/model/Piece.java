@@ -43,7 +43,7 @@ public class Piece {
         if(position.getRow() == 0 || position.getRow() == 7){
             return possibleMoves;
         }
-        if(board.getPiece(position).getColor() == Color.WHITE){
+        if(board.getPiece(position).getColor() != Color.WHITE){
             Position nextPos = position.next(Direction.N);
             if(board.isFree(position.next(Direction.N))){
                 possibleMoves.add(nextPos);
@@ -109,6 +109,12 @@ public class Piece {
         final Piece other = (Piece) obj;
         return this.color == other.color;
     }
+
+    @Override
+    public String toString() {
+        return "Piece{" + "color=" + color + '}';
+    }
+    
     
 
 

@@ -20,8 +20,8 @@ public class Board {
      */
     public Board() {
         this.squares = new Square[8][8];
-        for(int line = 0; line < 8; ++line){
-            for( int col = 0; col <8; ++col){
+        for(int line = 0; line < squares.length; ++line){
+            for( int col = 0; col < squares[line].length; ++col){
                 squares[line][col] = new Square(null);
             }
         }
@@ -105,7 +105,7 @@ public class Board {
                     + "sur le plateau");
          }
         
-        if(squares[position.getRow()][position.getColumn()] == null){
+        if(!squares[position.getRow()][position.getColumn()].isFree()){
             squares[position.getRow()][position.getColumn()] = new Square(null);
         }
         squares[position.getRow()][position.getColumn()].setPiece(null);
@@ -176,5 +176,15 @@ public class Board {
             }
         }
         return occuped;
+    }
+    public static void main(String[] args) {
+        Board board = new Board();
+        for (int line = 0; line < 8; ++line) {
+            for (int col = 0; col < 8; ++col) {
+                Position position = new Position(line, col);
+                System.out.print(board.getPiece(position) +" | ");
+            }
+            System.out.println("");
+        }
     }
 }
