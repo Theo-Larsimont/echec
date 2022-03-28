@@ -4,6 +4,8 @@
  */
 package g56531.chess.model;
 
+import java.util.Objects;
+
 /**
  * Player
  * @author larsi
@@ -29,6 +31,28 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" + "color=" + color + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.color);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Player other = (Player) obj;
+        return this.color == other.color;
     }
     
     

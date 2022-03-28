@@ -124,7 +124,6 @@ public class Board {
                     + "sur le plateau");
          }
         if(squares[position.getRow()][position.getColumn()].isFree()){
-            System.out.println("free");
             squareFree = true;
         }
         return squareFree;
@@ -177,12 +176,5 @@ public class Board {
             }
         }
         return occuped;
-    }
-   
-    public static void main(String[] args) {
-          Board board = new Board();
-        Position pos = new Position(5, 2);
-        board.isFree(pos);
-        System.out.println(board.squares[pos.getRow()][pos.getColumn()]);
     }
 }
