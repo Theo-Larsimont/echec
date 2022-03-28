@@ -8,22 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author larsi
  */
-public class Game implements Model{
+public class Game implements Model {
+
     private Board board;
     private Player white;
     private Player black;
     private Player currentPlayer;
 
-    public Game(Board board, Player white, Player black) {
-        this.board = board;
-        this.white = white;
-        this.black = black;
+    public Game() {
+        this.board = new Board();
+        this.white = new Player(Color.WHITE);
+        this.black = new Player(Color.BLACK);
     }
 
+    public Board getBoard() {
+        return board;
+    }
     
+
     /**
      * Start the game: create the pieces and put them on the board, initialize
      * the current player to 'WHITE'.
@@ -31,10 +36,10 @@ public class Game implements Model{
     @Override
     public void start() {
         currentPlayer = white;
-       for(int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack){
-           board.setPiece(new Piece(Color.WHITE), new Position(1, colWhite));
-           board.setPiece(new Piece(Color.BLACK), new Position(6, colBlack));
-       }
+        for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
+            board.setPiece(new Piece(Color.WHITE), new Position(1, colWhite));
+            board.setPiece(new Piece(Color.BLACK), new Position(6, colBlack));
+        }
     }
 
     /**
@@ -42,11 +47,11 @@ public class Game implements Model{
      *
      * @param pos the position
      * @return the piece located at P
-     * @throws IllegalArgumentException pos  is not located on the board.
+     * @throws IllegalArgumentException pos is not located on the board.
      */
     @Override
     public Piece getPiece(Position pos) {
-        if(!board.contains(pos)){
+        if (!board.contains(pos)) {
             throw new IllegalArgumentException("La position n'est pas dans le plateau");
         }
         Piece piece = board.getPiece(pos);
@@ -60,7 +65,7 @@ public class Game implements Model{
      */
     @Override
     public Player getCurrentPlayer() {
-       return currentPlayer;
+        return currentPlayer;
     }
 
     /**
@@ -70,58 +75,61 @@ public class Game implements Model{
      */
     @Override
     public Player getOppositePlayer() {
-        if(currentPlayer.getColor() == Color.WHITE){
-            return black;
-        }else{
-            return white;
-        }
+        return  currentPlayer.getColor() ==  Color.WHITE ? black : white; 
     }
 
     /**
-     * Check if the square at the given position is occupied
-     * by a piece of the current player.
+     * Check if the square at the given position is occupied by a piece of the
+     * current player.
      *
      * @param pos the postion
-     * @return true if the position is occupied by a piece
-     * of the current player, false otherwise.
-     * @throws IllegalArgumentException if the position is not located on the board.
+     * @return true if the position is occupied by a piece of the current
+     * player, false otherwise.
+     * @throws IllegalArgumentException if the position is not located on the
+     * board.
      */
     @Override
     public boolean isCurrentPlayerPosition(Position pos) {
         var pieceCurrentPlayer = false;
-        if(!board.contains(pos)){
+        if (!board.contains(pos)) {
             throw new IllegalArgumentException("La position n'est pas dans le plateau");
         }
-        if(board.getPiece(pos).getColor() == currentPlayer.getColor()){
+        if (!board.isFree(pos) && board.getPiece(pos).getColor() == currentPlayer.getColor()) {
             pieceCurrentPlayer = true;
         }
         return pieceCurrentPlayer;
     }
 
-     /**
-     * Moves a piece from one position of the chess board to
-     * another one. If the game is not over, change
-     * the current player.
+    /**
+     * Moves a piece from one position of the chess board to another one. If the
+     * game is not over, change the current player.
      *
      * @param oldPos the current position
      * @param newPos the new position of the board where to put the piece
-     * @throws IllegalArgumentException if
-     *                                  1) oldPos or newPos are not located on the board, or
+     * @throws IllegalArgumentException if 
+     *                                  1) oldPos or newPos are not located on the board, or 
      *                                  2) oldPos does not contain a piece, or
-     *                                  3) the piece does not belong to the current player, or
-     *                                  4) the move is not valid for the piece located at position oldPos                                 
+     *                                  3) the piece does not belong to the current player, or 
+     *                                  4) the move is not valid for the piece located at position oldPos
      */
     @Override
     public void movePiecePosition(Position oldPos, Position newPos) {
-        if(!board.contains(newPos) || !board.contains(oldPos)
-                || board.isFree(oldPos)
-                || board.getPiece(oldPos).getColor() != currentPlayer.getColor()
-                || !board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)){
-            throw new IllegalArgumentException("Il y a une erreur");
+        if (!board.contains(newPos) || !board.contains(oldPos)) {
+            throw new IllegalArgumentException(" oldPos or newPos are not located on the board");
         }
-        board.setPiece(new Piece(currentPlayer.getColor()), newPos);
-        board.dropPiece(oldPos);
-            
+        if(board.isFree(oldPos)){
+            throw new IllegalArgumentException("oldPos does not contain a piece");
+        }
+        if( board.getPiece(oldPos).getColor() != currentPlayer.getColor()){
+            throw new IllegalArgumentException(" othe piece does not belong to the current player");
+        }
+        if(!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)){
+            throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
+        }
+        if(!this.isGameOver()){
+            board.setPiece(new Piece(currentPlayer.getColor()), newPos);
+            board.dropPiece(oldPos);
+        }
     }
 
     /**
@@ -133,32 +141,30 @@ public class Game implements Model{
     public boolean isGameOver() {
         var gameOver = false;
         List<Position> positions = board.getPositionsOccupiedBy(currentPlayer);
-        for(int i = 0; i < positions.size(); ++i){
+        for (int i = 0; i < positions.size(); ++i) {
             Position pos = positions.get(i);
-            if(board.getPiece(pos).getPossibleMoves(pos, board) != null){
+            if (board.getPiece(pos).getPossibleMoves(pos, board).size() != 0) {
                 return false;
-            }else{
+            } else {
                 gameOver = true;
             }
         }
-        
+
         return gameOver;
     }
 
     /**
-     * Get the possible moves for the piece located at
-     * the specified position.
+     * Get the possible moves for the piece located at the specified position.
      *
      * @param position the position of the piece
      * @return the liste of admissible positions.
      */
     @Override
     public List<Position> getPossibleMoves(Position position) {
-        List<Position> possibleMove 
+        List<Position> possibleMove
                 = board.getPiece(position).getPossibleMoves(position, board);
         return possibleMove;
-        
+
     }
-    
 
 }
