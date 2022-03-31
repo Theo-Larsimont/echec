@@ -45,14 +45,14 @@ public class GameTest {
     @Test
     public void isCurrentPlayerPositionTrue() {
         game.start();
-        Position pos = new Position(6, 1);
+        Position pos = new Position(1, 1);
         assertTrue(game.isCurrentPlayerPosition(pos));
     }
 
     @Test
     public void isCurrentPlayerPositionFalseIsOppositePlayer() {
         game.start();
-        Position pos = new Position(1, 1);
+        Position pos = new Position(6, 1);
         assertFalse(game.isCurrentPlayerPosition(pos));
     }
 
@@ -116,7 +116,7 @@ public class GameTest {
     @Test
     public void movePiecePositionWhitePiece() {
         game.start();
-        Position oldPos = new Position(2, 1);
+        Position oldPos = new Position(1, 1);
         Position newPos = oldPos.next(Direction.N);
         game.getBoard().setPiece(new Piece(Color.WHITE), oldPos);
         game.movePiecePosition(oldPos, newPos);
@@ -124,9 +124,8 @@ public class GameTest {
         assertEquals(expected, game.getBoard().getPiece(newPos));
         assertEquals(null, game.getBoard().getPiece(oldPos));
     }
-    
-     // **************** getPossibleMoves *****************
-   
+
+    // **************** getPossibleMoves *****************
     @Test
     public void testGetPossibleMovesP() {
         Position position = new Position(1, 1);
@@ -399,52 +398,78 @@ public class GameTest {
         assertTrue(actual.containsAll(expected));
         assertTrue(expected.containsAll(actual));
     }
-    
+
     // **************** getPossibleMoves *****************
-    
     @Test
     public void isGameOverIsFalse() {
         game.start();
-        assertFalse(game.isGameOver()); 
+        assertFalse(game.isGameOver());
     }
-    
+
     @Test
-    public void isGameOverIsTrue() {
+    public void isGameOverIsTrueNoMoreMovementPosiible() {
         game.start();
         game.movePiecePosition(new Position(1, 0), new Position(3, 0));
-        game.movePiecePosition(new Position(1, 1), new Position(3, 1));
-        game.movePiecePosition(new Position(1, 2), new Position(3, 2));
-        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
-        game.movePiecePosition(new Position(1, 4), new Position(3, 4));
-        game.movePiecePosition(new Position(1, 5), new Position(3, 5));
-        game.movePiecePosition(new Position(1, 6), new Position(3, 6));
+        game.movePiecePosition(new Position(6, 1), new Position(4, 1));
         game.movePiecePosition(new Position(1, 7), new Position(3, 7));
-        
-        for(int i = 0, line = 3; i < 2; ++i, ++line){
-            for(int y = 0; y < 8; ++y){
-                Position pos = new Position(line, y);
-                game.movePiecePosition(pos, pos.next(Direction.N));
-            }
-        }
-        game.movePiecePosition(new Position(5, 0), new Position(6, 1));
-        game.movePiecePosition(new Position(5, 1), new Position(6, 0));
+        game.movePiecePosition(new Position(6, 6), new Position(4, 6));
+        game.movePiecePosition(new Position(3, 0), new Position(4, 1));
+        game.movePiecePosition(new Position(6, 2), new Position(5, 2));
+        game.movePiecePosition(new Position(3, 7), new Position(4, 6));
+        game.movePiecePosition(new Position(6, 5), new Position(5, 5));
+        game.movePiecePosition(new Position(4, 1), new Position(5, 2));
+        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
+        game.movePiecePosition(new Position(4, 6), new Position(5, 5));
+        game.movePiecePosition(new Position(6, 7), new Position(5, 7));
         game.movePiecePosition(new Position(5, 2), new Position(6, 3));
-        game.movePiecePosition(new Position(5, 3), new Position(6, 2));
-        game.movePiecePosition(new Position(5, 4), new Position(6, 5));
+        game.movePiecePosition(new Position(5, 0), new Position(4, 0));
         game.movePiecePosition(new Position(5, 5), new Position(6, 4));
-        game.movePiecePosition(new Position(5, 6), new Position(6, 7));
-        game.movePiecePosition(new Position(5, 7), new Position(6, 6));
-        
-        game.movePiecePosition(new Position(6, 0), new Position(7, 0));
-        game.movePiecePosition(new Position(6, 1), new Position(7, 1));
-        game.movePiecePosition(new Position(6, 2), new Position(7, 2));
-        game.movePiecePosition(new Position(6, 3), new Position(7, 3));
-        game.movePiecePosition(new Position(6, 4), new Position(7, 4));
-        game.movePiecePosition(new Position(6, 5), new Position(7, 5));
-        game.movePiecePosition(new Position(6, 6), new Position(7, 6));
-        game.movePiecePosition(new Position(6, 7), new Position(7, 7));
-        
-        assertTrue(game.isGameOver()); 
+        game.movePiecePosition(new Position(5, 7), new Position(4, 7));
+        game.movePiecePosition(new Position(1, 1), new Position(2, 1));
+        game.movePiecePosition(new Position(4, 0), new Position(3, 0));
+        game.movePiecePosition(new Position(2, 1), new Position(3, 0));
+        game.movePiecePosition(new Position(4, 7), new Position(3, 7));
+        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
+        game.movePiecePosition(new Position(3, 7), new Position(2, 7));
+        game.movePiecePosition(new Position(1, 6), new Position(2, 6));
+        game.movePiecePosition(new Position(2, 7), new Position(1, 7));
+        game.movePiecePosition(new Position(2, 6), new Position(3, 6));
+        game.movePiecePosition(new Position(1, 7), new Position(0, 7));
+        game.movePiecePosition(new Position(1, 2), new Position(3, 2));
+
+        assertTrue(game.isGameOver());
+    }
+
+     @Test
+    public void isGameOverIsTrueNoMorePiece() {
+        game.start();
+        game.movePiecePosition(new Position(1, 0), new Position(3, 0));
+        game.movePiecePosition(new Position(6, 1), new Position(4, 1));
+        game.movePiecePosition(new Position(1, 7), new Position(3, 7));
+        game.movePiecePosition(new Position(6, 6), new Position(4, 6));
+        game.movePiecePosition(new Position(3, 0), new Position(4, 1));
+        game.movePiecePosition(new Position(6, 2), new Position(5, 2));
+        game.movePiecePosition(new Position(3, 7), new Position(4, 6));
+        game.movePiecePosition(new Position(6, 5), new Position(5, 5));
+        game.movePiecePosition(new Position(4, 1), new Position(5, 2));
+        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
+        game.movePiecePosition(new Position(4, 6), new Position(5, 5));
+        game.movePiecePosition(new Position(6, 7), new Position(5, 7));
+        game.movePiecePosition(new Position(5, 2), new Position(6, 3));
+        game.movePiecePosition(new Position(5, 0), new Position(4, 0));
+        game.movePiecePosition(new Position(5, 5), new Position(6, 4));
+        game.movePiecePosition(new Position(5, 7), new Position(4, 7));
+        game.movePiecePosition(new Position(1, 1), new Position(2, 1));
+        game.movePiecePosition(new Position(4, 0), new Position(3, 0));
+        game.movePiecePosition(new Position(2, 1), new Position(3, 0));
+        game.movePiecePosition(new Position(4, 7), new Position(3, 7));
+        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
+        game.movePiecePosition(new Position(3, 7), new Position(2, 7));
+        game.movePiecePosition(new Position(1, 6), new Position(2, 7));
+
+
+
+        assertTrue(game.isGameOver());
     }
 
 }

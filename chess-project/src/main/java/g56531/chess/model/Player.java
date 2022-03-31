@@ -30,7 +30,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" + "color=" + color + '}';
+        return "Player :" + color;
     }
 
     @Override

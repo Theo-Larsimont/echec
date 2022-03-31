@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author larsi
  */
-public class Game implements Model{
+public class Game implements Model {
 
     private Board board;
     private Player white;
@@ -36,8 +36,8 @@ public class Game implements Model{
     public void start() {
         currentPlayer = white;
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
-            board.setPiece(new Piece(Color.WHITE), new Position(6, colWhite));
-            board.setPiece(new Piece(Color.BLACK), new Position(1, colBlack));
+            board.setPiece(new Piece(Color.WHITE), new Position(1, colWhite));
+            board.setPiece(new Piece(Color.BLACK), new Position(6, colBlack));
         }
     }
 
@@ -124,6 +124,7 @@ public class Game implements Model{
         if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
             throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
         }
+
         if (!this.isGameOver()) {
             board.setPiece(new Piece(currentPlayer.getColor()), newPos);
             board.dropPiece(oldPos);
@@ -139,16 +140,18 @@ public class Game implements Model{
     @Override
     public boolean isGameOver() {
         var gameOver = false;
-        List<Position> positions = board.getPositionsOccupiedBy(currentPlayer);
-        for (int i = 0; i < positions.size(); ++i) {
-            Position pos = positions.get(i);
-            if (board.getPiece(pos).getPossibleMoves(pos, board).size() != 0) {
-                return false;
-            } else {
-                gameOver = true;
-            }
+        
+        List<Position> piecedRestante = board.getPositionsOccupiedBy(currentPlayer);
+        if(piecedRestante.isEmpty()){
+            gameOver =true;
         }
-
+        for(int i = 0; i < piecedRestante.size(); ++i){
+            Position pos = piecedRestante.get(i);
+            Piece piece = board.getPiece(piecedRestante.get(i));
+            if(piece.getPossibleMoves(pos, board).isEmpty()){
+                gameOver = true;
+            };
+        }
         return gameOver;
     }
 

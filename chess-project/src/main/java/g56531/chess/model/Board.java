@@ -180,6 +180,7 @@ public class Board {
     public static void main(String[] args) {
         Board board = new Board();
         for (int line = 0; line < 8; ++line) {
+            System.out.print(line);
             for (int col = 0; col < 8; ++col) {
                 Position position = new Position(line, col);
                 System.out.print(board.getPiece(position) +" | ");

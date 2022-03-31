@@ -27,9 +27,9 @@ public class PieceTest {
         board = new Board();
     }
 
-    @Test
+     @Test
     public void testGetPossibleMovesP() {
-        Position position = new Position(1, 1);
+        Position position = new Position(1,1);
         Piece piece = new Piece(Color.WHITE);
         board.setPiece(piece, position);
 
@@ -42,7 +42,6 @@ public class PieceTest {
 
         assertEqualsIgnoringOrder(expected, positions);
     }
-
     @Test
     public void testGetPossibleMovesInitialPositionWhitePieceButSecondSquareIsNotFree() {
         Position position = new Position(1, 1);
