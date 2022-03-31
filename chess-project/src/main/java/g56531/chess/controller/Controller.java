@@ -54,13 +54,5 @@ public class Controller {
         }
         view.displayWinner();
     }
-    public static void main(String[] args) {
-       Model game = new Game();
-       Controller controller = new Controller(game, new TextView(game));
-       game.start();
-       Position pos = new Position(6,1);
-       Position pos1 = new Position(1,1);
-       controller.play();
-    }
 }
         
