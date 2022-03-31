@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ * display the game
  * @author larsi
  */
 public class TextView implements View {
@@ -39,23 +39,24 @@ public class TextView implements View {
      */
     @Override
     public void displayBoard() {
-        for (int line = 0, numLine = 8; line < 8; ++line, --numLine) {
+        System.out.println("  -------------------------");
+        for (int line = 7, numLine = 8; line > -1; --line, --numLine) {
             System.out.print(numLine + " ");
             for (int col = 0; col < 8; ++col) {
                 Position pos = new Position(line, col);
                 if (model.getPiece(pos) == null) {
                     System.out.print("|  ");
                 } else if (model.getPiece(pos).getColor() == Color.WHITE) {
-                    System.out.print("|PB");
+                    System.out.print("|PW");
                 } else {
-                    System.out.print("|PN");
+                    System.out.print("|PB");
                 }
             }
             System.out.println("|");
             System.out.print("  ");
             System.out.println("-------------------------");
         }
-        System.out.println("  a  b  c  d  e  f  g  f");
+        System.out.println("   a  b  c  d  e  f  g  h");
     }
 
     /**
@@ -95,7 +96,7 @@ public class TextView implements View {
             System.out.println("Ceci n'est pas un entier");
             System.out.println("Veuillez d'abord enter le numero de ligne");
         }
-        line = scanner.nextInt();
+        line = scanner.nextInt() -1;
         System.out.println("Maintenant veuillez enter le numéro de colonne");
         while (scanner.hasNextInt()) {
             scanner.next();
@@ -130,33 +131,6 @@ public class TextView implements View {
                 break;
         }
 
-        switch (line) {
-            case 1:
-                line = 7;
-                break;
-            case 2:
-                line = 6;
-                break;
-            case 3:
-                line = 5;
-                break;
-            case 4:
-                line = 4;
-                break;
-            case 5:
-                line = 3;
-                break;
-            case 6:
-                line = 2;
-                break;
-            case 7:
-                line = 1;
-                break;
-            case 8:
-                line = 0;
-                break;
-        }
-        System.out.println(line + " " + colInInt);
         return new Position(line, colInInt);
     }
 

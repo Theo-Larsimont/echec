@@ -7,7 +7,7 @@ package g56531.chess.view;
 import g56531.chess.model.Position;
 
 /**
- *
+ * defines the methods of the TextView class
  * @author larsi
  */
 public interface View {
