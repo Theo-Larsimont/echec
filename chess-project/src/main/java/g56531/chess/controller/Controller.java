@@ -11,7 +11,7 @@ import g56531.chess.view.TextView;
 import g56531.chess.view.View;
 
 /**
- *
+ * course of a game
  * @author larsi
  */
 public class Controller {
@@ -23,6 +23,9 @@ public class Controller {
         this.view = view;
     }
     
+    /**
+     * course of a chess game
+     */
     public void play(){
         boolean isGameOver = false;
         boolean error = true;

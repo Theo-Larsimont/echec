@@ -10,7 +10,7 @@ import g56531.chess.model.Model;
 import g56531.chess.view.TextView;
 
 /**
- *
+ * Start the game 
  * @author larsi
  */
 public class main {

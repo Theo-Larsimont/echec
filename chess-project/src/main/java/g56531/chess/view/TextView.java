@@ -57,6 +57,7 @@ public class TextView implements View {
             System.out.println("-------------------------");
         }
         System.out.println("   a  b  c  d  e  f  g  h");
+        System.out.println("");
     }
 
     /**
@@ -89,7 +90,6 @@ public class TextView implements View {
         var col = "";
         var colInInt = 0;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Vous allez choisir une position.");
         System.out.println("Veuillez d'abord enter le numero de ligne");
         while (!scanner.hasNextInt()) {
             scanner.next();
@@ -97,7 +97,7 @@ public class TextView implements View {
             System.out.println("Veuillez d'abord enter le numero de ligne");
         }
         line = scanner.nextInt() -1;
-        System.out.println("Maintenant veuillez enter le numéro de colonne");
+        System.out.println("Maintenant veuillez enter la lettre de colonne");
         while (scanner.hasNextInt()) {
             scanner.next();
             System.out.println("Ceci n'est pas une lettre");
@@ -144,15 +144,5 @@ public class TextView implements View {
         System.out.println(message);
     }
 
-    public static void main(String[] args) {
-        Model model = new Game();
-        TextView view = new TextView(model);
-        view.model.start();
-        view.displayTitle();
-        view.displayBoard();
-        view.displayPlayer();
-        view.askPosition();
-        view.displayBoard();
-    }
 
 }

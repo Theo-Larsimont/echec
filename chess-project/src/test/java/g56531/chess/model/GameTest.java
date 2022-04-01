@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- *
+ * Test methode game
  * @author larsi
  */
 public class GameTest {
