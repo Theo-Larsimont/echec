@@ -4,6 +4,7 @@
  */
 package g56531.chess.model;
 
+import g56531.chess.model.pieces.Piece;
 import java.util.List;
 import java.util.ArrayList;
 

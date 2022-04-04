@@ -4,6 +4,8 @@
  */
 package g56531.chess.model;
 
+import g56531.chess.model.pieces.Piece;
+
 /**
  * Represents one of the 64 squares of the game.
  *

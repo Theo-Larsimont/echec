@@ -7,7 +7,7 @@ package g56531.chess.view;
 import g56531.chess.model.Color;
 import g56531.chess.model.Game;
 import g56531.chess.model.Model;
-import g56531.chess.model.Piece;
+import g56531.chess.model.pieces.Piece;
 import g56531.chess.model.Player;
 import g56531.chess.model.Position;
 import java.util.List;

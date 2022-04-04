@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package g56531.chess.model;
+import g56531.chess.model.pieces.Piece;
 import java.util.List;
 /**
  * defines the methods of the game class

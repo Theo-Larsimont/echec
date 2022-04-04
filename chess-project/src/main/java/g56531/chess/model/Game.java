@@ -4,6 +4,8 @@
  */
 package g56531.chess.model;
 
+import g56531.chess.model.pieces.Pawn;
+import g56531.chess.model.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +38,8 @@ public class Game implements Model {
     public void start() {
         currentPlayer = white;
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
-            board.setPiece(new Piece(Color.WHITE), new Position(1, colWhite));
-            board.setPiece(new Piece(Color.BLACK), new Position(6, colBlack));
+            board.setPiece(new Pawn(Color.WHITE), new Position(1, colWhite));
+            board.setPiece(new Pawn(Color.BLACK), new Position(6, colBlack));
         }
     }
 
@@ -126,7 +128,7 @@ public class Game implements Model {
         }
 
         if (!this.isGameOver()) {
-            board.setPiece(new Piece(currentPlayer.getColor()), newPos);
+            board.setPiece(new Pawn(currentPlayer.getColor()), newPos);
             board.dropPiece(oldPos);
             currentPlayer = getOppositePlayer();
         }

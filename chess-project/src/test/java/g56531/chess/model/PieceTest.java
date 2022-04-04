@@ -4,6 +4,8 @@
  */
 package g56531.chess.model;
 
+import g56531.chess.model.pieces.Pawn;
+import g56531.chess.model.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +32,7 @@ public class PieceTest {
      @Test
     public void testGetPossibleMovesP() {
         Position position = new Position(1,1);
-        Piece piece = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -46,8 +48,8 @@ public class PieceTest {
     public void testGetPossibleMovesInitialPositionWhitePieceButSecondSquareIsNotFree() {
         Position position = new Position(1, 1);
         Position position2 = new Position(3, 1);
-        Piece piece = new Piece(Color.WHITE);
-        Piece pieceOpp = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.WHITE);
+        Piece pieceOpp = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, position2);
 
@@ -63,7 +65,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleMovesInitialPositionBlackPiece() {
         Position position = new Position(6, 1);
-        Piece piece = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -80,8 +82,8 @@ public class PieceTest {
     public void testGetPossibleMovesInitialPositionBlackPieceButSecondSquareIsNotFree() {
         Position position = new Position(6, 1);
         Position position2 = new Position(4, 1);
-        Piece piece = new Piece(Color.BLACK);
-        Piece pieceOpp = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.BLACK);
+        Piece pieceOpp = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, position2);
 
@@ -97,7 +99,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleMovesFreeAroundWhitePiece() {
         Position position = new Position(2, 1);
-        Piece piece = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -112,7 +114,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleMovesFreeAroundBlackPiece() {
         Position position = new Position(5, 1);
-        Piece piece = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -128,8 +130,8 @@ public class PieceTest {
     public void testGetPossibleWhiteWithOppositeColorInFront() {
         Position position = new Position(3, 4);
         Position PositionOpp = new Position(4, 4);
-        Piece piece = new Piece(Color.WHITE);
-        Piece pieceOpp = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.WHITE);
+        Piece pieceOpp = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, PositionOpp);
 
@@ -144,8 +146,8 @@ public class PieceTest {
     public void testGetPossibleBlackWithOppositeColorInFront() {
         Position position = new Position(5, 1);
         Position PositionOpp = new Position(4, 1);
-        Piece piece = new Piece(Color.BLACK);
-        Piece pieceOpp = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.BLACK);
+        Piece pieceOpp = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, PositionOpp);
 
@@ -159,7 +161,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleWhiteInEndOfBoard() {
         Position position = new Position(7, 4);
-        Piece piece = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
 
         List<Position> expected = new ArrayList<>();
@@ -172,7 +174,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleBlackInEndOfBoard() {
         Position position = new Position(0, 1);
-        Piece piece = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
 
         List<Position> expected = new ArrayList<>();
@@ -185,7 +187,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleWhiteIsWestEdge() {
         Position position = new Position(3, 0);
-        Piece piece = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -200,7 +202,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleWhiteIsEastEdge() {
         Position position = new Position(3, 7);
-        Piece piece = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -215,7 +217,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleBlackIsWeastEdge() {
         Position position = new Position(4, 0);
-        Piece piece = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -230,7 +232,7 @@ public class PieceTest {
     @Test
     public void testGetPossibleBlackIsEastEdge() {
         Position position = new Position(4, 7);
-        Piece piece = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
 
         List<Position> expected = List.of(
@@ -247,9 +249,9 @@ public class PieceTest {
         Position position = new Position(4, 4);
         Position position2 = new Position(5, 3);
         Position position3 = new Position(5, 5);
-        Piece piece = new Piece(Color.WHITE);
-        Piece pieceOpp = new Piece(Color.BLACK);
-        Piece pieceOpp2 = new Piece(Color.BLACK);
+        Piece piece = new Pawn(Color.WHITE);
+        Piece pieceOpp = new Pawn(Color.BLACK);
+        Piece pieceOpp2 = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, position2);
         board.setPiece(pieceOpp2, position3);
@@ -270,9 +272,9 @@ public class PieceTest {
         Position position = new Position(4, 4);
         Position position2 = new Position(3, 3);
         Position position3 = new Position(3, 5);
-        Piece piece = new Piece(Color.BLACK);
-        Piece pieceOpp = new Piece(Color.WHITE);
-        Piece pieceOpp2 = new Piece(Color.WHITE);
+        Piece piece = new Pawn(Color.BLACK);
+        Piece pieceOpp = new Pawn(Color.WHITE);
+        Piece pieceOpp2 = new Pawn(Color.WHITE);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, position2);
         board.setPiece(pieceOpp2, position3);
