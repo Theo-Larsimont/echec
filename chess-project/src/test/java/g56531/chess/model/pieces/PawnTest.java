@@ -31,7 +31,7 @@ public class PawnTest {
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.NE));
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class PawnTest {
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.NW));
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class PawnTest {
         expected.add(pos.next(Direction.NE));
         expected.add(pos.next(Direction.NW));
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class PawnTest {
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.SE));
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class PawnTest {
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.SW));
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class PawnTest {
         expected.add(pos.next(Direction.SE));
         expected.add(pos.next(Direction.SW));
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
     }
      @Test
     public void getCapturePositionWhiteNENotInBoard() {
@@ -124,7 +124,18 @@ public class PawnTest {
         board.setPiece(p1, pos);
         List<Position> expected = new ArrayList<>();
         List<Position> result = p1.getCapturePossible(pos, board);
-        assertEquals(expected, result);
+        assertEqualsIgnoringOrder(expected,result);
+    }
+    
+    /*
+     *      Permet de tester si deux listes de positions sont identiques à l'ordre
+     *      des éléments prêts. Cette méthode est appelée
+     *      par les méthodes de test.
+     */
+    private void assertEqualsIgnoringOrder(List<Position> expected, List<Position> actual) {
+        assertEquals(expected.size(), actual.size());
+        assertTrue(actual.containsAll(expected));
+        assertTrue(expected.containsAll(actual));
     }
 
 }
