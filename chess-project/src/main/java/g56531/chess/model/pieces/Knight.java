@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Game Knight.
+ * Knight piece.
  * @author larsi
  */
 public class Knight extends Piece{

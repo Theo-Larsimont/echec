@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Rook piece
  * @author larsi
  */
 public class Rook extends Piece {
