@@ -26,6 +26,8 @@ public class Rook extends Piece {
         int row = position.getRow();
         int column = position.getColumn();
         boolean movePossible = true;
+        
+        //look at the possible movements upwards
         while (movePossible) {
             Position nextPos = new Position(++row, column);
             if (board.contains(nextPos)) {
@@ -41,8 +43,12 @@ public class Rook extends Piece {
                 movePossible = false;
             }
         }
+        
+        // reset row
         row = position.getRow();
         movePossible = true;
+        
+        //look at the possible movements downwards
         while (movePossible) {
             Position nextPos = new Position(--row, column);
             if (board.contains(nextPos)) {
@@ -60,6 +66,8 @@ public class Rook extends Piece {
         }
         row = position.getRow();
         movePossible = true;
+        
+        //look for possible movements to the right
         while (movePossible) {
             Position nextPos = new Position(row, ++column);
             if (board.contains(nextPos)) {
@@ -75,8 +83,12 @@ public class Rook extends Piece {
                 movePossible = false;
             }
         }
+        
+         // reset column
         column = position.getColumn();
         movePossible = true;
+        
+        //look for possible movements to the left
         while (movePossible) {
             Position nextPos = new Position(row, --column);
             if (board.contains(nextPos)) {
