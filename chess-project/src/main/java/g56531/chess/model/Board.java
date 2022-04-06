@@ -153,7 +153,7 @@ public class Board {
          Color colorPiceInSquare = squares[position.getRow()][position.getColumn()]
                  .getPiece().getColor();
          
-         if (color == colorPiceInSquare.opposite()){
+         if (color != colorPiceInSquare){
              oppositeColor = true;
          }
          return oppositeColor;
