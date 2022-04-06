@@ -53,7 +53,7 @@ public class RookTest {
 
         assertEqualsIgnoringOrder(expected, result);
     }
-    
+
     @Test
     public void getPossibleMoveRigthBorder() {
         Board board = new Board();
@@ -72,7 +72,7 @@ public class RookTest {
 
         assertEqualsIgnoringOrder(expected, result);
     }
-    
+
     @Test
     public void getPossibleMoveCorner() {
         Board board = new Board();
@@ -91,8 +91,8 @@ public class RookTest {
 
         assertEqualsIgnoringOrder(expected, result);
     }
-    
-     @Test
+
+    @Test
     public void getPossibleMoveWithOppositePieceArround() {
         Board board = new Board();
         Rook rook = new Rook(Color.WHITE);
@@ -115,8 +115,8 @@ public class RookTest {
 
         assertEqualsIgnoringOrder(expected, result);
     }
-    
-     @Test
+
+    @Test
     public void getPossibleMoveWithPieceArround() {
         Board board = new Board();
         Rook rook = new Rook(Color.WHITE);
