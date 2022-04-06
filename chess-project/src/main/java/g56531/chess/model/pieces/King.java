@@ -24,7 +24,6 @@ public class King extends Piece{
     @Override
     public List<Position> getPossibleMoves(Position position, Board board) {
        List<Position> possibleMove = new ArrayList<>();
-       
        if(board.contains(position.next(Direction.W))
                && (board.isFree(position.next(Direction.W))
                || board.containsOppositeColor(position.next(Direction.W), color))){
