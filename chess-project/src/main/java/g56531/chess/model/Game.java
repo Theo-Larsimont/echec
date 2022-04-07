@@ -5,6 +5,7 @@
 package g56531.chess.model;
 
 import g56531.chess.model.pieces.Bishop;
+import g56531.chess.model.pieces.GameState;
 import g56531.chess.model.pieces.King;
 import g56531.chess.model.pieces.Knight;
 import g56531.chess.model.pieces.Pawn;
@@ -26,6 +27,7 @@ public class Game implements Model {
     private Player currentPlayer;
     private King whiteKing;
     private King blackKing;
+    private GameState state;
 
     public Game() {
         this.board = new Board();
@@ -46,6 +48,7 @@ public class Game implements Model {
         currentPlayer = white;
         whiteKing = new King(Color.WHITE);
         blackKing = new King(Color.BLACK);
+        state = GameState.PLAY;
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
             board.setPiece(new Pawn(Color.WHITE), new Position(1, colWhite));
             board.setPiece(new Pawn(Color.BLACK), new Position(6, colBlack));
@@ -204,4 +207,16 @@ public class Game implements Model {
         return possibleMove;
 
     }
+
+    /**
+     * Gives the state of the game
+     * @param state
+     * @return state of game
+     */
+    @Override
+    public GameState getState(GameState state) {
+        return state;
+    }
+    
+    
 }

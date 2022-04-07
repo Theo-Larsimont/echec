@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package g56531.chess.model;
+import g56531.chess.model.pieces.GameState;
 import g56531.chess.model.pieces.Piece;
 import java.util.List;
 /**
@@ -80,5 +81,12 @@ public interface Model {
      * @return the liste of admissible positions.
      */
     public List<Position> getPossibleMoves(Position position);
+    
+    /**
+     * Gives the state of the game
+     * @param state of the game 
+     * @return state of game 
+     */
+    public GameState getState(GameState state);
 }
 
