@@ -4,13 +4,18 @@
  */
 package g56531.chess.model;
 
+import g56531.chess.model.pieces.Bishop;
+import g56531.chess.model.pieces.King;
+import g56531.chess.model.pieces.Knight;
 import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
+import g56531.chess.model.pieces.Queen;
+import g56531.chess.model.pieces.Rook;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author larsi
  */
 public class Game implements Model {
@@ -40,7 +45,32 @@ public class Game implements Model {
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
             board.setPiece(new Pawn(Color.WHITE), new Position(1, colWhite));
             board.setPiece(new Pawn(Color.BLACK), new Position(6, colBlack));
+
+            if (colWhite == 0 || colWhite == 7) {
+                board.setPiece(new Rook(Color.WHITE), new Position(0, colWhite));
+                board.setPiece(new Rook(Color.BLACK), new Position(7, colWhite));
+            }
+            if (colWhite == 1 || colWhite == 6) {
+                board.setPiece(new Knight(Color.WHITE), new Position(0, colWhite));
+                board.setPiece(new Knight(Color.BLACK), new Position(7, colWhite));
+            }
+            if (colWhite == 2 || colWhite == 5) {
+                board.setPiece(new Bishop(Color.WHITE), new Position(0, colWhite));
+                board.setPiece(new Bishop(Color.BLACK), new Position(7, colWhite));
+            }
+            if (colWhite == 3) {
+                board.setPiece(new Queen(Color.WHITE), new Position(0, colWhite));
+                board.setPiece(new Queen(Color.BLACK), new Position(7, colWhite));
+            }
+            if (colWhite == 4) {
+                board.setPiece(new King(Color.WHITE), new Position(0, colWhite));
+                board.setPiece(new King(Color.BLACK), new Position(7, colWhite));
+            }
+
         }
+
+        board.setPiece(new King(Color.BLACK), new Position(7, 4));
+        board.setPiece(new Queen(Color.BLACK), new Position(7, 3));
     }
 
     /**
@@ -142,15 +172,15 @@ public class Game implements Model {
     @Override
     public boolean isGameOver() {
         var gameOver = false;
-        
+
         List<Position> piecedRestante = board.getPositionsOccupiedBy(currentPlayer);
-        if(piecedRestante.isEmpty()){
-            gameOver =true;
+        if (piecedRestante.isEmpty()) {
+            gameOver = true;
         }
-        for(int i = 0; i < piecedRestante.size(); ++i){
+        for (int i = 0; i < piecedRestante.size(); ++i) {
             Position pos = piecedRestante.get(i);
             Piece piece = board.getPiece(piecedRestante.get(i));
-            if(piece.getPossibleMoves(pos, board).isEmpty()){
+            if (piece.getPossibleMoves(pos, board).isEmpty()) {
                 gameOver = true;
             };
         }
@@ -170,5 +200,4 @@ public class Game implements Model {
         return possibleMove;
 
     }
-
 }
