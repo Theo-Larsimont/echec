@@ -44,6 +44,8 @@ public class Game implements Model {
     @Override
     public void start() {
         currentPlayer = white;
+        whiteKing = new King(Color.WHITE);
+        blackKing = new King(Color.BLACK);
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
             board.setPiece(new Pawn(Color.WHITE), new Position(1, colWhite));
             board.setPiece(new Pawn(Color.BLACK), new Position(6, colBlack));
