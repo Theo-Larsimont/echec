@@ -10,14 +10,16 @@ import g56531.chess.model.Model;
 import g56531.chess.view.TextView;
 
 /**
- * Start the game 
+ * Start the game
+ *
  * @author larsi
  */
 public class main {
+
     public static void main(String[] args) {
         Model game = new Game();
-       Controller controller = new Controller(game, new TextView(game));
-       controller.play();
+        Controller controller = new Controller(game, new TextView(game));
+        controller.play();
     }
-    
+
 }

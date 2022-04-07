@@ -68,9 +68,6 @@ public class Game implements Model {
             }
 
         }
-
-        board.setPiece(new King(Color.BLACK), new Position(7, 4));
-        board.setPiece(new Queen(Color.BLACK), new Position(7, 3));
     }
 
     /**
@@ -158,7 +155,20 @@ public class Game implements Model {
         }
 
         if (!this.isGameOver()) {
-            board.setPiece(new Pawn(currentPlayer.getColor()), newPos);
+            Piece piece = board.getPiece(oldPos);
+            if(piece instanceof Pawn){
+                 board.setPiece(new Pawn(currentPlayer.getColor()), newPos);
+            }else if(piece instanceof Rook){
+                board.setPiece(new Rook(currentPlayer.getColor()), newPos);
+            }else if(piece instanceof Knight){
+                board.setPiece(new Knight(currentPlayer.getColor()), newPos);
+            }else if(piece instanceof Bishop){
+                board.setPiece(new Bishop(currentPlayer.getColor()), newPos);
+            }else if(piece instanceof Queen){
+                board.setPiece(new Queen(currentPlayer.getColor()), newPos);
+            }else{
+                board.setPiece(new King(currentPlayer.getColor()), newPos);
+            }
             board.dropPiece(oldPos);
             currentPlayer = getOppositePlayer();
         }
@@ -174,16 +184,18 @@ public class Game implements Model {
         var gameOver = false;
 
         List<Position> piecedRestante = board.getPositionsOccupiedBy(currentPlayer);
+        List<Position> possibleMove = new ArrayList<>();
         if (piecedRestante.isEmpty()) {
             gameOver = true;
         }
         for (int i = 0; i < piecedRestante.size(); ++i) {
             Position pos = piecedRestante.get(i);
-            Piece piece = board.getPiece(piecedRestante.get(i));
-            if (piece.getPossibleMoves(pos, board).isEmpty()) {
-                gameOver = true;
-            };
+            Piece piece = board.getPiece(pos);
+            possibleMove.addAll(piece.getPossibleMoves(pos, board));
         }
+        if (possibleMove.isEmpty()) {
+                gameOver = true;
+            }
         return gameOver;
     }
 
