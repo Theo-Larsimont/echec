@@ -24,6 +24,8 @@ public class Game implements Model {
     private Player white;
     private Player black;
     private Player currentPlayer;
+    private King whiteKing;
+    private King blackKing;
 
     public Game() {
         this.board = new Board();
@@ -63,8 +65,8 @@ public class Game implements Model {
                 board.setPiece(new Queen(Color.BLACK), new Position(7, colWhite));
             }
             if (colWhite == 4) {
-                board.setPiece(new King(Color.WHITE), new Position(0, colWhite));
-                board.setPiece(new King(Color.BLACK), new Position(7, colWhite));
+                board.setPiece(whiteKing, new Position(0, colWhite));
+                board.setPiece(blackKing, new Position(7, colWhite));
             }
 
         }
@@ -156,19 +158,7 @@ public class Game implements Model {
 
         if (!this.isGameOver()) {
             Piece piece = board.getPiece(oldPos);
-            if(piece instanceof Pawn){
-                 board.setPiece(new Pawn(currentPlayer.getColor()), newPos);
-            }else if(piece instanceof Rook){
-                board.setPiece(new Rook(currentPlayer.getColor()), newPos);
-            }else if(piece instanceof Knight){
-                board.setPiece(new Knight(currentPlayer.getColor()), newPos);
-            }else if(piece instanceof Bishop){
-                board.setPiece(new Bishop(currentPlayer.getColor()), newPos);
-            }else if(piece instanceof Queen){
-                board.setPiece(new Queen(currentPlayer.getColor()), newPos);
-            }else{
-                board.setPiece(new King(currentPlayer.getColor()), newPos);
-            }
+            board.setPiece(piece, newPos);
             board.dropPiece(oldPos);
             currentPlayer = getOppositePlayer();
         }
