@@ -88,5 +88,13 @@ public interface Model {
      * @return state of game 
      */
     public GameState getState(GameState state);
+    
+    /**
+     * check if the movement is possible
+     * @param oldPos initial position
+     * @param newPos wanted position
+     * @return if the movement is valid 
+     */
+    public boolean isValidMove(Position oldPos, Position newPos);
 }
 

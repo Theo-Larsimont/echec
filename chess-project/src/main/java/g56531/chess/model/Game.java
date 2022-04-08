@@ -12,6 +12,7 @@ import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
 import g56531.chess.model.pieces.Queen;
 import g56531.chess.model.pieces.Rook;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,8 +190,8 @@ public class Game implements Model {
             possibleMove.addAll(piece.getPossibleMoves(pos, board));
         }
         if (possibleMove.isEmpty()) {
-                gameOver = true;
-            }
+            gameOver = true;
+        }
         return gameOver;
     }
 
@@ -210,6 +211,7 @@ public class Game implements Model {
 
     /**
      * Gives the state of the game
+     *
      * @param state
      * @return state of game
      */
@@ -217,6 +219,50 @@ public class Game implements Model {
     public GameState getState(GameState state) {
         return state;
     }
-    
-    
+
+    /**
+     * check if the movement is possible
+     *
+     * @param oldPos initial position
+     * @param newPos wanted position
+     * @return if the movement is valid
+     */
+    @Override
+    public boolean isValidMove(Position oldPos, Position newPos) {
+        boolean validMove = false;
+
+        if (board.getPiece(oldPos).equals(null)
+                || !getPossibleMoves(oldPos).contains(newPos)) {
+            throw new IllegalArgumentException("Mouvement impossible ou "
+                    + "la position initial ne cotient aucune piece");
+        }
+
+        if (getPossibleMoves(oldPos).contains(newPos)) {
+            validMove = true;
+        }
+        return validMove;
+    }
+
+    /**
+     * all the positions where you can capture a piece
+     *
+     * @param player currentPlayer
+     * @return List of position
+     */
+    public List<Position> getCapturePosition(Player player) {
+        List<Position> capturePosition = new ArrayList<>();
+        List<Position> allPiecePlayer = board.getPositionsOccupiedBy(player);
+
+        for (int i = 0; i < allPiecePlayer.size(); ++i) {
+            for (int x = 0; x < getPossibleMoves(allPiecePlayer.get(i)).size(); ++x) {
+                Position position = getPossibleMoves(allPiecePlayer.get(i)).get(x);
+                if (board.containsOppositeColor(position, player.getColor())) {
+                    capturePosition.add(position);
+                }
+
+            }
+        }
+        return capturePosition;
+
+    }
 }

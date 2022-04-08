@@ -6,6 +6,7 @@ package g56531.chess.model;
 
 import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
+import g56531.chess.model.pieces.Queen;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Test methode game
+ *
  * @author larsi
  */
 public class GameTest {
@@ -401,7 +403,7 @@ public class GameTest {
         assertTrue(expected.containsAll(actual));
     }
 
-    // **************** getPossibleMoves *****************
+    // **************** isGameOver *****************
     @Test
     public void isGameOverIsFalse() {
         game.start();
@@ -442,7 +444,7 @@ public class GameTest {
         assertTrue(game.isGameOver());
     }
 
-     @Test
+    @Test
     public void isGameOverIsTrueNoMorePiece() {
         game.start();
         game.movePiecePosition(new Position(1, 0), new Position(3, 0));
@@ -469,9 +471,41 @@ public class GameTest {
         game.movePiecePosition(new Position(3, 7), new Position(2, 7));
         game.movePiecePosition(new Position(1, 6), new Position(2, 7));
 
-
-
         assertTrue(game.isGameOver());
     }
 
+    // **************** isValidMove *****************
+    @Test
+    public void getCapturePositions() {
+        Game game = new Game();
+        game.start();
+        Position oldPos = new Position(1, 3);
+        Position newPos = new Position(3, 3);
+
+        assertTrue(game.isValidMove(oldPos, newPos));
+    }
+
+    @Test
+    public void getCapturePositionsFalse() {
+        Game game = new Game();
+        game.start();
+        Position oldPos = new Position(1, 3);
+        Position newPos = new Position(4, 3);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.isValidMove(oldPos, newPos);
+        });
+    }
+    
+     @Test
+    public void getCapturePositionsFalseoldPosNotInboard() {
+        Game game = new Game();
+        game.start();
+        Position oldPos = new Position(-1, 3);
+        Position newPos = new Position(4, 3);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.isValidMove(oldPos, newPos);
+        });
+    }
 }
