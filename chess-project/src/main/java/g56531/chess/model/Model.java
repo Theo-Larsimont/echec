@@ -87,7 +87,7 @@ public interface Model {
      * @param state of the game 
      * @return state of game 
      */
-    public GameState getState(GameState state);
+    public GameState getState();
     
     /**
      * check if the movement is possible

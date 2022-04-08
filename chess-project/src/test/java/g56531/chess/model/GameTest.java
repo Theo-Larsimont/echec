@@ -4,6 +4,7 @@
  */
 package g56531.chess.model;
 
+import g56531.chess.model.pieces.GameState;
 import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
 import g56531.chess.model.pieces.Queen;
@@ -127,6 +128,50 @@ public class GameTest {
         Piece expected = new Pawn(Color.WHITE);
         assertEquals(expected, game.getBoard().getPiece(newPos));
         assertEquals(null, game.getBoard().getPiece(oldPos));
+    }
+
+    @Test
+    public void movePiecePositionPlay() {
+        game.start();
+        GameState expected = GameState.PLAY;
+        game.movePiecePosition(new Position(1, 6), new Position(3, 6));
+        game.movePiecePosition(new Position(6, 4), new Position(4, 4));
+        game.movePiecePosition(new Position(1, 5), new Position(2, 5));
+        GameState result = game.getState();
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    public void movePiecePositionCheckMate() {
+        game.start();
+        GameState expected = GameState.CHECK_MATE;
+        game.movePiecePosition(new Position(1, 6), new Position(3, 6));
+        game.movePiecePosition(new Position(6, 4), new Position(4, 4));
+        game.movePiecePosition(new Position(1, 5), new Position(2, 5));
+        game.movePiecePosition(new Position(7, 3), new Position(3, 7));
+        GameState result = game.getState();
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    public void movePiecePositionCheck() {
+        game.start();
+        GameState expected = GameState.CHECK;
+        game.movePiecePosition(new Position(1, 6), new Position(3, 6));
+        game.movePiecePosition(new Position(6, 4), new Position(4, 4));
+        game.movePiecePosition(new Position(1, 3), new Position(2, 3));
+        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
+        game.movePiecePosition(new Position(1, 5), new Position(2, 5));
+        game.movePiecePosition(new Position(7, 3), new Position(3, 7));
+
+        GameState result = game.getState();
+
+        assertEquals(expected, result);
+
     }
 
     // **************** getPossibleMoves *****************
@@ -410,70 +455,69 @@ public class GameTest {
         assertFalse(game.isGameOver());
     }
 
-    @Test
-    public void isGameOverIsTrueNoMoreMovementPosiible() {
-        game.start();
-        game.movePiecePosition(new Position(1, 0), new Position(3, 0));
-        game.movePiecePosition(new Position(6, 1), new Position(4, 1));
-        game.movePiecePosition(new Position(1, 7), new Position(3, 7));
-        game.movePiecePosition(new Position(6, 6), new Position(4, 6));
-        game.movePiecePosition(new Position(3, 0), new Position(4, 1));
-        game.movePiecePosition(new Position(6, 2), new Position(5, 2));
-        game.movePiecePosition(new Position(3, 7), new Position(4, 6));
-        game.movePiecePosition(new Position(6, 5), new Position(5, 5));
-        game.movePiecePosition(new Position(4, 1), new Position(5, 2));
-        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
-        game.movePiecePosition(new Position(4, 6), new Position(5, 5));
-        game.movePiecePosition(new Position(6, 7), new Position(5, 7));
-        game.movePiecePosition(new Position(5, 2), new Position(6, 3));
-        game.movePiecePosition(new Position(5, 0), new Position(4, 0));
-        game.movePiecePosition(new Position(5, 5), new Position(6, 4));
-        game.movePiecePosition(new Position(5, 7), new Position(4, 7));
-        game.movePiecePosition(new Position(1, 1), new Position(2, 1));
-        game.movePiecePosition(new Position(4, 0), new Position(3, 0));
-        game.movePiecePosition(new Position(2, 1), new Position(3, 0));
-        game.movePiecePosition(new Position(4, 7), new Position(3, 7));
-        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
-        game.movePiecePosition(new Position(3, 7), new Position(2, 7));
-        game.movePiecePosition(new Position(1, 6), new Position(2, 6));
-        game.movePiecePosition(new Position(2, 7), new Position(1, 7));
-        game.movePiecePosition(new Position(2, 6), new Position(3, 6));
-        game.movePiecePosition(new Position(1, 7), new Position(0, 7));
-        game.movePiecePosition(new Position(1, 2), new Position(3, 2));
-
-        assertTrue(game.isGameOver());
-    }
-
-    @Test
-    public void isGameOverIsTrueNoMorePiece() {
-        game.start();
-        game.movePiecePosition(new Position(1, 0), new Position(3, 0));
-        game.movePiecePosition(new Position(6, 1), new Position(4, 1));
-        game.movePiecePosition(new Position(1, 7), new Position(3, 7));
-        game.movePiecePosition(new Position(6, 6), new Position(4, 6));
-        game.movePiecePosition(new Position(3, 0), new Position(4, 1));
-        game.movePiecePosition(new Position(6, 2), new Position(5, 2));
-        game.movePiecePosition(new Position(3, 7), new Position(4, 6));
-        game.movePiecePosition(new Position(6, 5), new Position(5, 5));
-        game.movePiecePosition(new Position(4, 1), new Position(5, 2));
-        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
-        game.movePiecePosition(new Position(4, 6), new Position(5, 5));
-        game.movePiecePosition(new Position(6, 7), new Position(5, 7));
-        game.movePiecePosition(new Position(5, 2), new Position(6, 3));
-        game.movePiecePosition(new Position(5, 0), new Position(4, 0));
-        game.movePiecePosition(new Position(5, 5), new Position(6, 4));
-        game.movePiecePosition(new Position(5, 7), new Position(4, 7));
-        game.movePiecePosition(new Position(1, 1), new Position(2, 1));
-        game.movePiecePosition(new Position(4, 0), new Position(3, 0));
-        game.movePiecePosition(new Position(2, 1), new Position(3, 0));
-        game.movePiecePosition(new Position(4, 7), new Position(3, 7));
-        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
-        game.movePiecePosition(new Position(3, 7), new Position(2, 7));
-        game.movePiecePosition(new Position(1, 6), new Position(2, 7));
-
-        assertTrue(game.isGameOver());
-    }
-
+//    @Test
+//    public void isGameOverIsTrueNoMoreMovementPosiible() {
+//        game.start();
+//        game.movePiecePosition(new Position(1, 0), new Position(3, 0));
+//        game.movePiecePosition(new Position(6, 1), new Position(4, 1));
+//        game.movePiecePosition(new Position(1, 7), new Position(3, 7));
+//        game.movePiecePosition(new Position(6, 6), new Position(4, 6));
+//        game.movePiecePosition(new Position(3, 0), new Position(4, 1));
+//        game.movePiecePosition(new Position(6, 2), new Position(5, 2));
+//        game.movePiecePosition(new Position(3, 7), new Position(4, 6));
+//        game.movePiecePosition(new Position(6, 5), new Position(5, 5));
+//        game.movePiecePosition(new Position(4, 1), new Position(5, 2));
+//        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
+//        game.movePiecePosition(new Position(4, 6), new Position(5, 5));
+//        game.movePiecePosition(new Position(6, 7), new Position(5, 7));
+//        game.movePiecePosition(new Position(5, 2), new Position(6, 3));
+//        game.movePiecePosition(new Position(5, 0), new Position(4, 0));
+//        game.movePiecePosition(new Position(5, 5), new Position(6, 4));
+//        game.movePiecePosition(new Position(5, 7), new Position(4, 7));
+//        game.movePiecePosition(new Position(1, 1), new Position(2, 1));
+//        game.movePiecePosition(new Position(4, 0), new Position(3, 0));
+//        game.movePiecePosition(new Position(2, 1), new Position(3, 0));
+//        game.movePiecePosition(new Position(4, 7), new Position(3, 7));
+//        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
+//        game.movePiecePosition(new Position(3, 7), new Position(2, 7));
+//        game.movePiecePosition(new Position(1, 6), new Position(2, 6));
+//        game.movePiecePosition(new Position(2, 7), new Position(1, 7));
+//        game.movePiecePosition(new Position(2, 6), new Position(3, 6));
+//        game.movePiecePosition(new Position(1, 7), new Position(0, 7));
+//        game.movePiecePosition(new Position(1, 2), new Position(3, 2));
+//
+//        assertTrue(game.isGameOver());
+//    }
+//
+//    @Test
+//    public void isGameOverIsTrueNoMorePiece() {
+//        game.start();
+//        game.movePiecePosition(new Position(1, 0), new Position(3, 0));
+//        game.movePiecePosition(new Position(6, 1), new Position(4, 1));
+//        game.movePiecePosition(new Position(1, 7), new Position(3, 7));
+//        game.movePiecePosition(new Position(6, 6), new Position(4, 6));
+//        game.movePiecePosition(new Position(3, 0), new Position(4, 1));
+//        game.movePiecePosition(new Position(6, 2), new Position(5, 2));
+//        game.movePiecePosition(new Position(3, 7), new Position(4, 6));
+//        game.movePiecePosition(new Position(6, 5), new Position(5, 5));
+//        game.movePiecePosition(new Position(4, 1), new Position(5, 2));
+//        game.movePiecePosition(new Position(6, 0), new Position(5, 0));
+//        game.movePiecePosition(new Position(4, 6), new Position(5, 5));
+//        game.movePiecePosition(new Position(6, 7), new Position(5, 7));
+//        game.movePiecePosition(new Position(5, 2), new Position(6, 3));
+//        game.movePiecePosition(new Position(5, 0), new Position(4, 0));
+//        game.movePiecePosition(new Position(5, 5), new Position(6, 4));
+//        game.movePiecePosition(new Position(5, 7), new Position(4, 7));
+//        game.movePiecePosition(new Position(1, 1), new Position(2, 1));
+//        game.movePiecePosition(new Position(4, 0), new Position(3, 0));
+//        game.movePiecePosition(new Position(2, 1), new Position(3, 0));
+//        game.movePiecePosition(new Position(4, 7), new Position(3, 7));
+//        game.movePiecePosition(new Position(1, 3), new Position(3, 3));
+//        game.movePiecePosition(new Position(3, 7), new Position(2, 7));
+//        game.movePiecePosition(new Position(1, 6), new Position(2, 7));
+//
+//        assertTrue(game.isGameOver());
+//    }
     // **************** isValidMove *****************
     @Test
     public void getCapturePositions() {
@@ -496,8 +540,8 @@ public class GameTest {
             game.isValidMove(oldPos, newPos);
         });
     }
-    
-     @Test
+
+    @Test
     public void getCapturePositionsFalseoldPosNotInboard() {
         Game game = new Game();
         game.start();

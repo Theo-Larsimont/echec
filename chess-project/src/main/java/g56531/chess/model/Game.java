@@ -191,6 +191,10 @@ public class Game implements Model {
         List<Position> allPosPiece = new ArrayList<>();
         allPosPiece = board.getPositionsOccupiedBy(getOppositePlayer());
         List<Position> allMovePossible = new ArrayList<>();
+        for (int i = 0; i < allPosPiece.size(); ++i) {
+            allMovePossible.addAll(getPossibleMoves(allPosPiece.get(i)));
+        }
+        
         if (getCapturePosition(getCurrentPlayer()).contains(oppositeKing)) {
             List<Position> posAvoidCheck = new ArrayList<>();
             posAvoidCheck.add(oppositeKing.next(Direction.NW));
@@ -202,12 +206,8 @@ public class Game implements Model {
             posAvoidCheck.add(oppositeKing.next(Direction.S));
             posAvoidCheck.add(oppositeKing.next(Direction.SE));
 
-            for (int i = 0; i < allPosPiece.size(); ++i) {
-                allMovePossible.addAll(getPossibleMoves(allPosPiece.get(i)));
-            }
             if (posAvoidCheck.containsAll(allMovePossible)) {
                 state = GameState.CHECK;
-                currentPlayer = getOppositePlayer();
             } else {
                 state = GameState.CHECK_MATE;
             }
@@ -216,8 +216,8 @@ public class Game implements Model {
             state = GameState.STALE_MATE;
         } else {
             state = GameState.PLAY;
-            currentPlayer = getOppositePlayer();
         }
+        currentPlayer = getOppositePlayer();
     }
 
     /**
@@ -263,7 +263,7 @@ public class Game implements Model {
      * @return state of game
      */
     @Override
-    public GameState getState(GameState state) {
+    public GameState getState() {
         return state;
     }
 
