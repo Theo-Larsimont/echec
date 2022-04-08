@@ -12,6 +12,7 @@ import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
 import g56531.chess.model.pieces.Queen;
 import g56531.chess.model.pieces.Rook;
+import g56531.chess.view.TextView;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +150,10 @@ public class Game implements Model {
      */
     @Override
     public void movePiecePosition(Position oldPos, Position newPos) {
+        TextView view = new TextView(this);
+        boolean currentPlayerCheck = true;
+        Position king = new Position(0, 0);
+        Position oppositeKing = new Position(0, 0);
         if (!board.contains(newPos) || !board.contains(oldPos)) {
             throw new IllegalArgumentException(" oldPos or newPos are not located on the board");
         }
@@ -161,11 +166,56 @@ public class Game implements Model {
         if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
             throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
         }
-
-        if (!this.isGameOver()) {
+        if (currentPlayer.getColor() == Color.WHITE) {
+            king = board.getPiecePosition(whiteKing);
+            oppositeKing = board.getPiecePosition(blackKing);
+        } else {
+            king = board.getPiecePosition(blackKing);
+            oppositeKing = board.getPiecePosition(whiteKing);
+        }
+        while (currentPlayerCheck) {
             Piece piece = board.getPiece(oldPos);
             board.setPiece(piece, newPos);
             board.dropPiece(oldPos);
+            if (getCapturePosition(getOppositePlayer()).contains(king)) {
+                board.setPiece(piece, oldPos);
+                board.dropPiece(newPos);
+                view.displayError("Ce mouvement vous met en échec veuillez "
+                        + "choisir un autre mouvement ");
+                view.askPosition();
+            } else {
+                currentPlayerCheck = false;
+            }
+        }
+
+        List<Position> allPosPiece = new ArrayList<>();
+        allPosPiece = board.getPositionsOccupiedBy(getOppositePlayer());
+        List<Position> allMovePossible = new ArrayList<>();
+        if (getCapturePosition(getCurrentPlayer()).contains(oppositeKing)) {
+            List<Position> posAvoidCheck = new ArrayList<>();
+            posAvoidCheck.add(oppositeKing.next(Direction.NW));
+            posAvoidCheck.add(oppositeKing.next(Direction.N));
+            posAvoidCheck.add(oppositeKing.next(Direction.NE));
+            posAvoidCheck.add(oppositeKing.next(Direction.W));
+            posAvoidCheck.add(oppositeKing.next(Direction.E));
+            posAvoidCheck.add(oppositeKing.next(Direction.SW));
+            posAvoidCheck.add(oppositeKing.next(Direction.S));
+            posAvoidCheck.add(oppositeKing.next(Direction.SE));
+
+            for (int i = 0; i < allPosPiece.size(); ++i) {
+                allMovePossible.addAll(getPossibleMoves(allPosPiece.get(i)));
+            }
+            if (posAvoidCheck.containsAll(allMovePossible)) {
+                state = GameState.CHECK;
+                currentPlayer = getOppositePlayer();
+            } else {
+                state = GameState.CHECK_MATE;
+            }
+
+        } else if (allMovePossible.isEmpty()) {
+            state = GameState.STALE_MATE;
+        } else {
+            state = GameState.PLAY;
             currentPlayer = getOppositePlayer();
         }
     }
@@ -178,18 +228,15 @@ public class Game implements Model {
     @Override
     public boolean isGameOver() {
         var gameOver = false;
-
-        List<Position> piecedRestante = board.getPositionsOccupiedBy(currentPlayer);
-        List<Position> possibleMove = new ArrayList<>();
-        if (piecedRestante.isEmpty()) {
+        TextView view = new TextView(this);
+        if (state == GameState.CHECK) {
+            view.displayError("Attention votre roi est en échec");
+        } else if (state == GameState.STALE_MATE) {
+            view.displayError("Egalité plus de mouvement possible");
             gameOver = true;
-        }
-        for (int i = 0; i < piecedRestante.size(); ++i) {
-            Position pos = piecedRestante.get(i);
-            Piece piece = board.getPiece(pos);
-            possibleMove.addAll(piece.getPossibleMoves(pos, board));
-        }
-        if (possibleMove.isEmpty()) {
+
+        } else if (state == GameState.CHECK_MATE) {
+            view.displayError("Echec et mat");
             gameOver = true;
         }
         return gameOver;
