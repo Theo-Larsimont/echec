@@ -66,12 +66,7 @@ public interface Model {
      */
     public void movePiecePosition(Position oldPos, Position newPos);
 
-    /**
-     * Check if the game is over or not
-     *
-     * @return true if the game is over, false otherwise.
-     */
-    public boolean isGameOver();
+
 
     /**
      * Get the possible moves for the piece located at

@@ -154,6 +154,8 @@ public class Game implements Model {
         boolean currentPlayerCheck = true;
         Position king = new Position(0, 0);
         Position oppositeKing = new Position(0, 0);
+
+        // All error possible 
         if (!board.contains(newPos) || !board.contains(oldPos)) {
             throw new IllegalArgumentException(" oldPos or newPos are not located on the board");
         }
@@ -166,6 +168,8 @@ public class Game implements Model {
         if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
             throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
         }
+
+        // Assign the color of the kings according to the current player
         if (currentPlayer.getColor() == Color.WHITE) {
             king = board.getPiecePosition(whiteKing);
             oppositeKing = board.getPiecePosition(blackKing);
@@ -173,6 +177,8 @@ public class Game implements Model {
             king = board.getPiecePosition(blackKing);
             oppositeKing = board.getPiecePosition(whiteKing);
         }
+
+        //check if the player's movement does not put him in check
         while (currentPlayerCheck) {
             Piece piece = board.getPiece(oldPos);
             board.setPiece(piece, newPos);
@@ -188,60 +194,38 @@ public class Game implements Model {
             }
         }
 
-        List<Position> allPosPiece = new ArrayList<>();
-        allPosPiece = board.getPositionsOccupiedBy(getOppositePlayer());
-        List<Position> allMovePossible = new ArrayList<>();
-        for (int i = 0; i < allPosPiece.size(); ++i) {
-            allMovePossible.addAll(getPossibleMoves(allPosPiece.get(i)));
+        /**
+         * @param allPosPieceCurent variable to have the position of all the pieces 
+         * of the current player.
+         * @param allMovePossibleCurent variable to have the position of all 
+         * the possible movement of the current player.
+         */
+        List<Position> allPosPieceCurent = new ArrayList<>();
+        allPosPieceCurent = board.getPositionsOccupiedBy(getCurrentPlayer());
+        List<Position> allMovePossibleCurent = new ArrayList<>();
+        for (int i = 0; i < allPosPieceCurent.size(); ++i) {
+            allMovePossibleCurent.addAll(getPossibleMoves(allPosPieceCurent.get(i)));
         }
-        
-        if (getCapturePosition(getCurrentPlayer()).contains(oppositeKing)) {
-            List<Position> posAvoidCheck = new ArrayList<>();
-            posAvoidCheck.add(oppositeKing.next(Direction.NW));
-            posAvoidCheck.add(oppositeKing.next(Direction.N));
-            posAvoidCheck.add(oppositeKing.next(Direction.NE));
-            posAvoidCheck.add(oppositeKing.next(Direction.W));
-            posAvoidCheck.add(oppositeKing.next(Direction.E));
-            posAvoidCheck.add(oppositeKing.next(Direction.SW));
-            posAvoidCheck.add(oppositeKing.next(Direction.S));
-            posAvoidCheck.add(oppositeKing.next(Direction.SE));
 
-            if (posAvoidCheck.containsAll(allMovePossible)) {
+        if (getCapturePosition(getCurrentPlayer()).contains(oppositeKing)) {
+            List<Position> oppositMoveKing = new ArrayList<>();
+            oppositMoveKing.addAll(getPossibleMoves(oppositeKing));
+
+
+            if (!allMovePossibleCurent.containsAll(oppositMoveKing)) {
                 state = GameState.CHECK;
             } else {
                 state = GameState.CHECK_MATE;
             }
 
-        } else if (allMovePossible.isEmpty()) {
+        } else if (allMovePossibleCurent.isEmpty()) {
             state = GameState.STALE_MATE;
         } else {
             state = GameState.PLAY;
         }
         currentPlayer = getOppositePlayer();
     }
-
-    /**
-     * Check if the game is over or not
-     *
-     * @return true if the game is over, false otherwise.
-     */
-    @Override
-    public boolean isGameOver() {
-        var gameOver = false;
-        TextView view = new TextView(this);
-        if (state == GameState.CHECK) {
-            view.displayError("Attention votre roi est en échec");
-        } else if (state == GameState.STALE_MATE) {
-            view.displayError("Egalité plus de mouvement possible");
-            gameOver = true;
-
-        } else if (state == GameState.CHECK_MATE) {
-            view.displayError("Echec et mat");
-            gameOver = true;
-        }
-        return gameOver;
-    }
-
+   
     /**
      * Get the possible moves for the piece located at the specified position.
      *
