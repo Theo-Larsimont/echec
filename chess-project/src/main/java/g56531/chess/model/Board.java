@@ -80,11 +80,7 @@ public class Board {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
         }
-        if (squares[position.getRow()][position.getColumn()] == null) {
-            squares[position.getRow()][position.getColumn()] = new Square(piece);
-        } else {
             squares[position.getRow()][position.getColumn()].setPiece(piece);
-        }
     }
 
     /**
@@ -112,14 +108,9 @@ public class Board {
         if (!contains(position)) {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
-        }
-
-        if (!squares[position.getRow()][position.getColumn()].isFree()) {
-            squares[position.getRow()][position.getColumn()] = new Square(null);
-        }
+        } 
         squares[position.getRow()][position.getColumn()].setPiece(null);
     }
-
     /**
      * Returns if the box at the given position is free if the position is not
      * on the board it throws an exception.
@@ -188,18 +179,6 @@ public class Board {
             }
         }
         return occuped;
-    }
-
-    public static void main(String[] args) {
-        Board board = new Board();
-        for (int line = 0; line < 8; ++line) {
-            System.out.print(line);
-            for (int col = 0; col < 8; ++col) {
-                Position position = new Position(line, col);
-                System.out.print(board.getPiece(position) + " | ");
-            }
-            System.out.println("");
-        }
     }
 
     /**
