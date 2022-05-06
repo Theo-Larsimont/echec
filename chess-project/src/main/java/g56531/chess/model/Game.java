@@ -151,6 +151,8 @@ public class Game implements Model {
     @Override
     public void movePiecePosition(Position oldPos, Position newPos) {
         Position oppositeKing = posKing(getOppositePlayer());
+        var currentPlayerCheck = true;
+        TextView view = new TextView(this);
 
         // All error possible 
         if (!board.contains(newPos) || !board.contains(oldPos)) {
@@ -162,17 +164,25 @@ public class Game implements Model {
         if (board.getPiece(oldPos).getColor() != currentPlayer.getColor()) {
             throw new IllegalArgumentException(" othe piece does not belong to the current player");
         }
-        if (board.getPiece(oldPos).getCapturePosition(oldPos, board).contains(newPos)) {
-            System.out.println(board.getPiece(oldPos).getCapturePosition(oldPos, board));
-        }
-        if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)
-                && board.getPiece(oldPos).getCapturePosition(oldPos, board).contains(newPos)) {
-            throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
-        }
+//        if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
+//            throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
+//        }
 
-        Piece piece = board.getPiece(oldPos);
-        board.setPiece(piece, newPos);
-        board.dropPiece(oldPos);
+        while (currentPlayerCheck) {
+            Piece piece = board.getPiece(oldPos);
+            board.setPiece(piece, newPos);
+            board.dropPiece(oldPos);
+            if (getCapturePositions(getOppositePlayer()).contains(posKing(currentPlayer))) {
+                board.setPiece(piece, oldPos);
+                board.dropPiece(newPos);
+                view.displayError("Ce mouvement vous met en échec veuillez "
+                        + "choisir un autre mouvement ");
+                oldPos = view.askPosition();
+                newPos = view.askPosition();
+            } else {
+                currentPlayerCheck = false;
+            }
+        }
 
         List<Position> allMovePossibleCurent
                 = getAllPossibleMove(getCurrentPlayer());
@@ -187,7 +197,7 @@ public class Game implements Model {
                 state = GameState.CHECK_MATE;
             }
 
-        } else if (!checkStalemate(getOppositePlayer())) {
+        } else if (checkStalemate(getOppositePlayer())) {
             state = GameState.STALE_MATE;
         } else {
             state = GameState.PLAY;
@@ -205,6 +215,7 @@ public class Game implements Model {
     public List<Position> getPossibleMoves(Position position) {
         List<Position> possibleMove
                 = board.getPiece(position).getPossibleMoves(position, board);
+        possibleMove.addAll(board.getPiece(position).getCapturePosition(position, board));
         return possibleMove;
 
     }
@@ -248,23 +259,23 @@ public class Game implements Model {
      */
     private boolean checkStalemate(Player player) {
         boolean atLeastOneMoveValid = false;
-        List<Position> allPiecePos = board.getPositionsOccupiedBy(player);
-
-        for (int i = 0; i < allPiecePos.size(); ++i) {
-            Position oldPos = allPiecePos.get(i);
-            List<Position> movePossibleForPiece
-                    = board.getPiece(oldPos).getPossibleMoves(oldPos, board);
-            for (int x = 0; x < movePossibleForPiece.size(); ++x) {
-                Position newPos = movePossibleForPiece.get(x);
-                if (isValidMove(oldPos, newPos)) {
-                    atLeastOneMoveValid = true;
-                    break;
-                }
-            }
-            if (atLeastOneMoveValid) {
-                break;
-            }
-        }
+//        List<Position> allPiecePos = board.getPositionsOccupiedBy(player);
+//
+//        for (int i = 0; i < allPiecePos.size(); ++i) {
+//            Position oldPos = allPiecePos.get(i);
+//            List<Position> movePossibleForPiece
+//                    = board.getPiece(oldPos).getPossibleMoves(oldPos, board);
+//            for (int x = 0; x < movePossibleForPiece.size(); ++x) {
+//                Position newPos = movePossibleForPiece.get(x);
+//                if (isValidMove(oldPos, newPos)) {
+//                    atLeastOneMoveValid = true;
+//                    break;
+//                }
+//            }
+//            if (atLeastOneMoveValid) {
+//                break;
+//            }
+//        }
         return atLeastOneMoveValid;
     }
 
