@@ -168,6 +168,7 @@ public class Game implements Model {
 //            throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
 //        }
 
+        // prevents movement on failure
         while (currentPlayerCheck) {
             Piece piece = board.getPiece(oldPos);
             board.setPiece(piece, newPos);
