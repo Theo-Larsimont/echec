@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author larsi
  */
 public class PawnTest {
-
+    
     @Test
     public void getCapturePositionWhiteNE() {
         Board board = new Board();
@@ -29,7 +29,8 @@ public class PawnTest {
         board.setPiece(p1, pos);
         board.setPiece(p2, pos2);
         List<Position> expected = new ArrayList<>();
-        expected.add(pos.next(Direction.NE));
+        expected.add(pos2);
+        System.out.println( p1.getCapturePossible(pos, board));
         List<Position> result = p1.getCapturePossible(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
@@ -44,7 +45,7 @@ public class PawnTest {
         board.setPiece(p1, pos);
         board.setPiece(p2, pos2);
         List<Position> expected = new ArrayList<>();
-        expected.add(pos.next(Direction.NW));
+        expected.add(pos2);
         List<Position> result = p1.getCapturePossible(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
@@ -137,5 +138,4 @@ public class PawnTest {
         assertTrue(actual.containsAll(expected));
         assertTrue(expected.containsAll(actual));
     }
-
 }

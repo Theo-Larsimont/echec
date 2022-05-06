@@ -100,7 +100,7 @@ public class TextView implements View {
                         }
 
                     }
-                }else{
+                } else {
                     System.out.print("|  ");
                 }
             }
@@ -117,10 +117,7 @@ public class TextView implements View {
      */
     @Override
     public void displayWinner() {
-        if (model.isGameOver()) {
-            System.out.println(model.getOppositePlayer());
-        }
-
+        System.out.println(model.getOppositePlayer());
     }
 
     /**
@@ -142,17 +139,11 @@ public class TextView implements View {
         var col = "";
         var colInInt = 0;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Veuillez d'abord enter le numero de ligne");
-        while (!scanner.hasNextInt()) {
-            scanner.next();
-            System.out.println("Ceci n'est pas un entier");
-            System.out.println("Veuillez d'abord enter le numero de ligne");
-        }
-        line = scanner.nextInt() - 1;
-        System.out.println("Maintenant veuillez enter la lettre de colonne");
+        System.out.println("Veuillez enter la lettre de colonne (de a à h)");
         while (scanner.hasNextInt()) {
             scanner.next();
-            System.out.println("Ceci n'est pas une lettre");
+            System.out.println("Ceci n'est pas une lettre "
+                    + "ou n'est pas compris de a à h");
             System.out.println("Maintenant veuillez enter le numéro de colonne");
         }
         col = scanner.next();
@@ -183,6 +174,13 @@ public class TextView implements View {
                 break;
         }
 
+        System.out.println("Maintenant veuillez d'abord enter le numero de ligne");
+        while (!scanner.hasNextInt()) {
+            scanner.next();
+            System.out.println("Ceci n'est pas un entier");
+            System.out.println("Veuillez enter le numero de ligne");
+        }
+        line = scanner.nextInt() - 1;
         return new Position(line, colInInt);
     }
 
@@ -194,6 +192,30 @@ public class TextView implements View {
     @Override
     public void displayError(String message) {
         System.out.println(message);
+    }
+
+    /**
+     * displays a message to say that its king is in check
+     */
+    @Override
+    public void displayCheck() {
+        System.out.println("Votre Roi est en échec !");
+    }
+
+    /**
+     * displays a message to say that its king is in checkmate
+     */
+    @Override
+    public void displayMat() {
+        System.out.println("Echec et mat !");
+    }
+
+    /**
+     * displays a message to say that the game ended in a tie
+     */
+    @Override
+    public void displayStaleMat() {
+        System.out.println("Egalité");
     }
 
 }

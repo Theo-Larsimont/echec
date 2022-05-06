@@ -249,9 +249,9 @@ public class PieceTest {
         Position position = new Position(4, 4);
         Position position2 = new Position(5, 3);
         Position position3 = new Position(5, 5);
-        Piece piece = new Pawn(Color.WHITE);
-        Piece pieceOpp = new Pawn(Color.BLACK);
-        Piece pieceOpp2 = new Pawn(Color.BLACK);
+        Pawn piece = new Pawn(Color.WHITE);
+        Pawn pieceOpp = new Pawn(Color.BLACK);
+        Pawn pieceOpp2 = new Pawn(Color.BLACK);
         board.setPiece(piece, position);
         board.setPiece(pieceOpp, position2);
         board.setPiece(pieceOpp2, position3);

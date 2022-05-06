@@ -7,6 +7,7 @@ package g56531.chess.controller;
 import g56531.chess.model.Game;
 import g56531.chess.model.Model;
 import g56531.chess.model.Position;
+import g56531.chess.model.GameState;
 import g56531.chess.view.TextView;
 import g56531.chess.view.View;
 
@@ -30,31 +31,47 @@ public class Controller {
      */
     public void play() {
         boolean gameOver = false;
-        boolean error = true;
+        boolean wrongMove = true;
         view.displayTitle();
         model.start();
 
         while (!gameOver) {
             view.displayBoard();
             view.displayPlayer();
-            System.out.println("Veuillez choisir le pion que "
-                    + " vous allez déplacer ");
-            Position oldPos = view.askPosition();
-            System.out.println("Veuillez choisir la case sur laquelle "
-                    + " vous voulez deplacer le pion ");
-            Position newPos = view.askPosition();
-            while (!model.getPossibleMoves(oldPos).contains(newPos)) {
-                view.displayError("Ce mouvement est impossible veuillez choisir"
-                        + " une autre position !");
-                oldPos = view.askPosition();
-            }
+            while (wrongMove) {
+                System.out.println("Veuillez choisir le pion que "
+                        + " vous allez déplacer ");
+                Position oldPos = view.askPosition();
 
-            model.movePiecePosition(oldPos, newPos);
-            System.out.println(model.isGameOver());
-            if (model.isGameOver()) {
+                while (!model.isCurrentPlayerPosition(oldPos)) {
+                    view.displayError("Pas de pions a vous a cette position");
+                    System.out.println("Veuillez choisir le pion que "
+                            + " vous allez déplacer ");
+                    oldPos = view.askPosition();
+                }
+                System.out.println("Veuillez choisir la case sur laquelle "
+                        + " vous voulez deplacer le pion ");
+                Position newPos = view.askPosition();
+                if (!model.getPossibleMoves(oldPos).contains(newPos)
+                       || !model.isValidMove(oldPos, newPos)) {
+                    view.displayError("Ce mouvement est impossible veuillez choisir"
+                            + " une autre position !");
+                } else {
+                    wrongMove = false;
+                    model.movePiecePosition(oldPos, newPos);
+                }
+            }
+            wrongMove = true;
+
+            if (model.getState() == GameState.CHECK_MATE) {
                 gameOver = true;
+                view.displayMat();
+            } else if (model.getState() == GameState.STALE_MATE) {
+                gameOver = true;
+                view.displayStaleMat();
+            } else if (model.getState() == GameState.CHECK) {
+                view.displayCheck();
             }
-
         }
         view.displayWinner();
     }

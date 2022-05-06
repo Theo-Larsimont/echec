@@ -4,7 +4,6 @@
  */
 package g56531.chess.model;
 
-import g56531.chess.model.pieces.GameState;
 import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
 import g56531.chess.model.pieces.Queen;

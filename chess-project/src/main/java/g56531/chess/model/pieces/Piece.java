@@ -46,12 +46,7 @@ public abstract class Piece {
     public List<Position> getCapturePosition(Position position, Board board){
         return getPossibleMoves(position, board);
     }
-    private List<Position> diagonale(Position position, Board board){
-        List<Position> pos = new ArrayList<>();
-        
-        return pos;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;

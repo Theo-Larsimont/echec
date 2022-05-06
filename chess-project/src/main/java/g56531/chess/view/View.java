@@ -42,5 +42,20 @@ public interface View {
      * @param message 
      */
     public void displayError(String message);
+    
+    /**
+     * displays a message to say that its king is in check 
+     */
+    public void displayCheck();
+    
+    /**
+     * displays a message to say that its king is in checkmate
+     */
+    public void displayMat();
+    
+    /**
+     * displays a message to say that the game ended in a tie
+     */
+    public void displayStaleMat();
 }
     

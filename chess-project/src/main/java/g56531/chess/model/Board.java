@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * chess board.
+ * Setting up the game board
  *
  * @author larsi
  */
@@ -32,7 +32,7 @@ public class Board {
     }
 
     /**
-     * check if the position is in the table.
+     * check if the position given is on the board.
      *
      * @param pos to check
      * @return true if the pos is in board
@@ -80,7 +80,7 @@ public class Board {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
         }
-            squares[position.getRow()][position.getColumn()].setPiece(piece);
+        squares[position.getRow()][position.getColumn()].setPiece(piece);
     }
 
     /**
@@ -108,9 +108,10 @@ public class Board {
         if (!contains(position)) {
             throw new IllegalArgumentException("la position donnée n'est pas "
                     + "sur le plateau");
-        } 
+        }
         squares[position.getRow()][position.getColumn()].setPiece(null);
     }
+
     /**
      * Returns if the box at the given position is free if the position is not
      * on the board it throws an exception.
