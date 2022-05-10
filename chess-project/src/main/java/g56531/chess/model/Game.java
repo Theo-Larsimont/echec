@@ -11,6 +11,7 @@ import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Piece;
 import g56531.chess.model.pieces.Queen;
 import g56531.chess.model.pieces.Rook;
+import g56531.chess.model.pieces.Sniper;
 import g56531.chess.view.TextView;
 import java.text.NumberFormat;
 import java.util.AbstractList;
@@ -51,6 +52,9 @@ public class Game implements Model {
         whiteKing = new King(Color.WHITE);
         blackKing = new King(Color.BLACK);
         state = GameState.PLAY;
+        
+        board.setPiece(new Sniper(Color.WHITE), new Position(4, 7));
+        board.setPiece(new Sniper(Color.BLACK), new Position(3, 0));
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
             board.setPiece(new Pawn(Color.WHITE), new Position(1, colWhite));
             board.setPiece(new Pawn(Color.BLACK), new Position(6, colBlack));
