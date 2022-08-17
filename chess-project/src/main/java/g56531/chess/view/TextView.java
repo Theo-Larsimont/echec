@@ -16,7 +16,7 @@ import g56531.chess.model.pieces.Knight;
 import g56531.chess.model.pieces.Pawn;
 import g56531.chess.model.pieces.Queen;
 import g56531.chess.model.pieces.Rook;
-import g56531.chess.model.pieces.Sniper;
+//import g56531.chess.model.pieces.Sniper;
 import java.util.List;
 import java.util.Scanner;
 
@@ -101,13 +101,13 @@ public class TextView implements View {
                         }
 
                     }
-                    if (piece instanceof Sniper) {
-                        if (piece.getColor() == Color.WHITE) {
-                            System.out.print("|SW");
-                        } else {
-                            System.out.print("|SB");
-                        }
-                    }
+//                    if (piece instanceof Sniper) {
+//                        if (piece.getColor() == Color.WHITE) {
+//                            System.out.print("|SW");
+//                        } else {
+//                            System.out.print("|SB");
+//                        }
+//                    }
                 } else {
                     System.out.print("|  ");
                 }
