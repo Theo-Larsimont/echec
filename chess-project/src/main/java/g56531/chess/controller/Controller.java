@@ -53,7 +53,7 @@ public class Controller {
                         + " vous voulez deplacer le pion ");
                 Position newPos = view.askPosition();
                 if (!model.getPossibleMoves(oldPos).contains(newPos)
-                       || !model.isValidMove(oldPos, newPos)) {
+                        || !model.isValidMove(oldPos, newPos)) {
                     view.displayError("Ce mouvement est impossible veuillez choisir"
                             + " une autre position !");
                 } else {
@@ -66,13 +66,17 @@ public class Controller {
             if (model.getState() == GameState.CHECK_MATE) {
                 gameOver = true;
                 view.displayMat();
+                view.displayBoard();
+                view.displayWinner();
+                break;
             } else if (model.getState() == GameState.STALE_MATE) {
                 gameOver = true;
                 view.displayStaleMat();
+                view.displayBoard();
+                break;
             } else if (model.getState() == GameState.CHECK) {
                 view.displayCheck();
             }
         }
-        view.displayWinner();
     }
 }

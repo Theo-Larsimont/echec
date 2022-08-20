@@ -89,6 +89,11 @@ public class Knight extends Piece{
         
         return possibleMove;
     }
+
+    @Override
+    public String toString() {
+        return "Knight " + color;
+    }
     
     
 }

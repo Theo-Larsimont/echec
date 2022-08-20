@@ -69,10 +69,9 @@ public abstract class Piece {
         return this.color == other.color;
     }
 
+
     @Override
-    public String toString() {
-        return "Piece{" + "color=" + color + '}';
-    }
+    public abstract String toString();
     
     
 

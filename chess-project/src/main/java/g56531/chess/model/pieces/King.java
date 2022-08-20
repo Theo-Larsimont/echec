@@ -83,6 +83,12 @@ public class King extends Piece{
        
        return possibleMove;
     }
+
+    @Override
+    public String toString() {
+        return "King " + color;
+    }
+    
     
     
 }

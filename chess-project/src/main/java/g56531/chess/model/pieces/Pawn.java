@@ -80,7 +80,8 @@ public class Pawn extends Piece {
      * @param board
      * @return capturePossible all positions of pawns can be captured
      */
-    public List<Position> getCapturePossible(Position position, Board board) {
+    @Override
+    public List<Position> getCapturePosition(Position position, Board board) {
         List<Position> capturePossible = new ArrayList<>();
 
         //if the color is white check next position NE and NW
@@ -115,4 +116,10 @@ public class Pawn extends Piece {
         }
         return capturePossible;
     }
+
+    @Override
+    public String toString() {
+        return "Pawn " + color;
+    }
+    
 }

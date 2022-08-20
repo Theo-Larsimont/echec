@@ -109,6 +109,11 @@ public class Bishop extends Piece{
 
         return possibleMove;
     }
+
+    @Override
+    public String toString() {
+        return "Bishop " + color;
+    }
     
     
 }

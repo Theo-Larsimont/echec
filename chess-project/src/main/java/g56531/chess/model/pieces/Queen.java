@@ -32,6 +32,11 @@ public class Queen extends Piece{
         return possibleMove;
         
     }
+
+    @Override
+    public String toString() {
+        return "Queen " + color;
+    }
     
     
 }

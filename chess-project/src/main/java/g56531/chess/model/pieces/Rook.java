@@ -108,4 +108,11 @@ public class Rook extends Piece {
         return possibleMove;
     }
 
+    @Override
+    public String toString() {
+        return "Rook " + color;
+    }
+    
+    
+
 }

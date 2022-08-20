@@ -30,8 +30,8 @@ public class PawnTest {
         board.setPiece(p2, pos2);
         List<Position> expected = new ArrayList<>();
         expected.add(pos2);
-        System.out.println( p1.getCapturePossible(pos, board));
-        List<Position> result = p1.getCapturePossible(pos, board);
+        System.out.println( p1.getCapturePosition(pos, board));
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
 
@@ -46,7 +46,7 @@ public class PawnTest {
         board.setPiece(p2, pos2);
         List<Position> expected = new ArrayList<>();
         expected.add(pos2);
-        List<Position> result = p1.getCapturePossible(pos, board);
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
 
@@ -65,7 +65,7 @@ public class PawnTest {
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.NE));
         expected.add(pos.next(Direction.NW));
-        List<Position> result = p1.getCapturePossible(pos, board);
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
 
@@ -80,7 +80,7 @@ public class PawnTest {
         board.setPiece(p2, pos2);
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.SE));
-        List<Position> result = p1.getCapturePossible(pos, board);
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
 
@@ -95,7 +95,7 @@ public class PawnTest {
         board.setPiece(p2, pos2);
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.SW));
-        List<Position> result = p1.getCapturePossible(pos, board);
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
 
@@ -114,7 +114,7 @@ public class PawnTest {
         List<Position> expected = new ArrayList<>();
         expected.add(pos.next(Direction.SE));
         expected.add(pos.next(Direction.SW));
-        List<Position> result = p1.getCapturePossible(pos, board);
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
      @Test
@@ -124,7 +124,7 @@ public class PawnTest {
         Position pos = new Position(2, 0);
         board.setPiece(p1, pos);
         List<Position> expected = new ArrayList<>();
-        List<Position> result = p1.getCapturePossible(pos, board);
+        List<Position> result = p1.getCapturePosition(pos, board);
         assertEqualsIgnoringOrder(expected,result);
     }
     

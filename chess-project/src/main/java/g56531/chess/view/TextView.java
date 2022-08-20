@@ -207,7 +207,7 @@ public class TextView implements View {
      */
     @Override
     public void displayCheck() {
-        System.out.println("Votre Roi est en échec !");
+        System.out.println("== Votre Roi est en échec ! ==");
     }
 
     /**
@@ -215,7 +215,7 @@ public class TextView implements View {
      */
     @Override
     public void displayMat() {
-        System.out.println("Echec et mat !");
+        System.out.println("====== Echec et mat ! ======");
     }
 
     /**
@@ -223,7 +223,7 @@ public class TextView implements View {
      */
     @Override
     public void displayStaleMat() {
-        System.out.println("Egalité");
+        System.out.println("========= Egalité =========");
     }
 
 }

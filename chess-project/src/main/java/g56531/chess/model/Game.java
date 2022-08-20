@@ -13,8 +13,6 @@ import g56531.chess.model.pieces.Queen;
 import g56531.chess.model.pieces.Rook;
 //import g56531.chess.model.pieces.Sniper;
 import g56531.chess.view.TextView;
-import java.text.NumberFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +50,7 @@ public class Game implements Model {
         whiteKing = new King(Color.WHITE);
         blackKing = new King(Color.BLACK);
         state = GameState.PLAY;
-        
+
 //        board.setPiece(new Sniper(Color.WHITE), new Position(4, 7));
 //        board.setPiece(new Sniper(Color.BLACK), new Position(3, 0));
         for (int colWhite = 0, colBlack = 7; colWhite < 8; ++colWhite, --colBlack) {
@@ -154,7 +152,6 @@ public class Game implements Model {
      */
     @Override
     public void movePiecePosition(Position oldPos, Position newPos) {
-        Position oppositeKing = posKing(getOppositePlayer());
         var currentPlayerCheck = true;
         TextView view = new TextView(this);
 
@@ -168,15 +165,15 @@ public class Game implements Model {
         if (board.getPiece(oldPos).getColor() != currentPlayer.getColor()) {
             throw new IllegalArgumentException(" othe piece does not belong to the current player");
         }
-//        if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
-//            throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
-//        }
+        if (!board.getPiece(oldPos).getPossibleMoves(oldPos, board).contains(newPos)) {
+            throw new IllegalArgumentException(" the move is not valid for the piece located at position oldPos");
+        }
 
         // prevents movement on failure
         while (currentPlayerCheck) {
             Piece piece = board.getPiece(oldPos);
-            board.setPiece(piece, newPos);
             board.dropPiece(oldPos);
+            board.setPiece(piece, newPos);
             if (getCapturePositions(getOppositePlayer()).contains(posKing(currentPlayer))) {
                 board.setPiece(piece, oldPos);
                 board.dropPiece(newPos);
@@ -189,20 +186,15 @@ public class Game implements Model {
             }
         }
 
-        List<Position> allMovePossibleCurent
-                = getAllPossibleMove(getCurrentPlayer());
+        if (check(getCurrentPlayer())) {
 
-        if (getCapturePositions(getCurrentPlayer()).contains(oppositeKing)) {
-            List<Position> oppositeMoveKing = new ArrayList<>();
-            oppositeMoveKing.addAll(getPossibleMoves(oppositeKing));
-
-            if (!allMovePossibleCurent.containsAll(oppositeMoveKing)) {
+            if (oneMoreValidMove(getOppositePlayer())) {
                 state = GameState.CHECK;
             } else {
                 state = GameState.CHECK_MATE;
             }
 
-        } else if (checkStalemate(getOppositePlayer())) {
+        } else if (!oneMoreValidMove(getOppositePlayer())) {
             state = GameState.STALE_MATE;
         } else {
             state = GameState.PLAY;
@@ -214,7 +206,7 @@ public class Game implements Model {
      * Get the possible moves for the piece located at the specified position.
      *
      * @param position the position of the piece
-     * @return the liste of admissible positions.
+     * @return the list of admissible positions.
      */
     @Override
     public List<Position> getPossibleMoves(Position position) {
@@ -225,30 +217,15 @@ public class Game implements Model {
 
     }
 
-    /**
-     * Give all Position possible for a player
-     *
-     * @param player
-     * @return all position possible
-     */
-    private List<Position> getAllPossibleMove(Player player) {
-        List<Position> allPosPiecePlayer = new ArrayList<>();
-        allPosPiecePlayer = board.getPositionsOccupiedBy(player);
-        List<Position> allMovePossible = new ArrayList<>();
-        for (int i = 0; i < allPosPiecePlayer.size(); ++i) {
-            allMovePossible.addAll(getPossibleMoves(allPosPiecePlayer.get(i)));
-        }
-        return allMovePossible;
-    }
 
     /**
      * gives the position of the king of a given player
      *
      * @param player
-     * @return
+     * @return position of the king
      */
     private Position posKing(Player player) {
-        Position king = new Position(0, 0);
+        Position king ;
         if (player.getColor() == Color.WHITE) {
             king = board.getPiecePosition(whiteKing);
         } else {
@@ -258,36 +235,62 @@ public class Game implements Model {
     }
 
     /**
+     * Check if there is still a possible movement
+     * @param player
+     * @return true if there is a movement possible
+     */
+    private boolean oneMoreValidMove(Player player) {
+        boolean oneMoreMove = false;
+        currentPlayer = getOppositePlayer();
+        List<Position> allPiecePlayer = board.getPositionsOccupiedBy(player);
+        
+        for (int i = 0; i < allPiecePlayer.size(); ++i) {
+            Position piecePos = allPiecePlayer.get(i);
+            List<Position> allMovePosPiece = new ArrayList<>();
+            allMovePosPiece.addAll(getPossibleMoves(piecePos));
+
+            for (int x = 0; x < allMovePosPiece.size(); ++x) {
+                Position newPos = allMovePosPiece.get(x);
+
+                if (isValidMove(piecePos, newPos)) {
+                    oneMoreMove = true;
+
+                }
+            }
+        }
+        currentPlayer = getOppositePlayer();
+        return oneMoreMove;
+    }
+
+
+
+    /**
      * check if there is a possible move
      *
      * @return true if there is stalemate
      */
-    private boolean checkStalemate(Player player) {
-        boolean atLeastOneMoveValid = false;
-//        List<Position> allPiecePos = board.getPositionsOccupiedBy(player);
-//
-//        for (int i = 0; i < allPiecePos.size(); ++i) {
-//            Position oldPos = allPiecePos.get(i);
-//            List<Position> movePossibleForPiece
-//                    = board.getPiece(oldPos).getPossibleMoves(oldPos, board);
-//            for (int x = 0; x < movePossibleForPiece.size(); ++x) {
-//                Position newPos = movePossibleForPiece.get(x);
-//                if (isValidMove(oldPos, newPos)) {
-//                    atLeastOneMoveValid = true;
-//                    break;
-//                }
-//            }
-//            if (atLeastOneMoveValid) {
-//                break;
-//            }
-//        }
-        return atLeastOneMoveValid;
-    }
+    private boolean check(Player player) {
+        boolean kingCheck = false;
+        List<Position> allPiecePos = board.getPositionsOccupiedBy(player);
+        List<Position> allCapture = new ArrayList<>();
 
+        for (int i = 0; i < allPiecePos.size(); ++i) {
+            var posPiece = allPiecePos.get(i);
+            var piece = board.getPiece(posPiece);
+
+            allCapture.addAll(piece.getCapturePosition(posPiece, board));
+
+        }
+        if (allCapture.contains(posKing(getOppositePlayer()))) {
+            kingCheck = true;
+        }
+
+        return kingCheck;
+    }
+    
+    
     /**
      * Gives the state of the game
-     *
-     * @param state
      * @return state of game
      */
     @Override
@@ -306,20 +309,28 @@ public class Game implements Model {
     public boolean isValidMove(Position oldPos, Position newPos) {
         boolean validMove = false;
         Piece piece = board.getPiece(oldPos);
+        Piece pieceOnNewPos = null;
         Player player = getCurrentPlayer();
+        Player oppositePlayer = getOppositePlayer();
 
-        if (board.getPiece(oldPos).equals(null)) {
+        if (board.isFree(oldPos)) {
             throw new IllegalArgumentException("Mouvement impossible ou "
                     + "la position initial ne cotient aucune piece");
         }
-        board.setPiece(piece, newPos);
+        if (!board.isFree(newPos)) {
+            pieceOnNewPos = board.getPiece(newPos);
+        }
+
         board.dropPiece(oldPos);
-        piece = board.getPiece(newPos);
-        if (!getCapturePositions(player).contains(posKing(player))) {
+        board.setPiece(piece, newPos);
+        Position posCurrentKing = posKing(player);
+        
+        if (!getCapturePositions(oppositePlayer).contains(posCurrentKing)) {
             validMove = true;
         }
         board.setPiece(piece, oldPos);
         board.dropPiece(newPos);
+        board.setPiece(pieceOnNewPos, newPos);
         return validMove;
     }
 
@@ -332,11 +343,20 @@ public class Game implements Model {
     public List<Position> getCapturePositions(Player player) {
         List<Position> capturePosition = new ArrayList<>();
         List<Position> allPiecePlayer = board.getPositionsOccupiedBy(player);
+        var playerColor = player.getColor();
 
         for (int i = 0; i < allPiecePlayer.size(); ++i) {
             var posPice = allPiecePlayer.get(i);
-            var getCapturePice = board.getPiece(posPice).getCapturePosition(posPice, board);
-            capturePosition.addAll(getCapturePice);
+            var piece = board.getPiece(posPice);
+            var allCapturePiece = piece.getCapturePosition(posPice, board);
+            for (int x = 0; x < allCapturePiece.size(); ++x) {
+                Position pos = allCapturePiece.get(x);
+                var pieceTest = board.getPiece(pos);
+                if (!board.isFree(pos)
+                        && pieceTest.getColor() != playerColor) {
+                    capturePosition.add(pos);
+                }
+            }
         }
         return capturePosition;
 
