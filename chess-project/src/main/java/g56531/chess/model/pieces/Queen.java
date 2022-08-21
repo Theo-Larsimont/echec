@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Queen piece
  * @author larsi
  */
 public class Queen extends Piece{

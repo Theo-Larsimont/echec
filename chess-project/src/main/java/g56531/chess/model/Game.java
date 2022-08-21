@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * brings together the different stages of the game
  * @author larsi
  */
 public class Game implements Model {
