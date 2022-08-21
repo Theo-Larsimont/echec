@@ -143,19 +143,43 @@ public class TextView implements View {
      */
     @Override
     public Position askPosition() {
-        var line = 0;
-        var col = "";
+        var pos = "";
         var colInInt = 0;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Veuillez enter la lettre de colonne (de a à h)");
-        while (scanner.hasNextInt()) {
-            scanner.next();
-            System.out.println("Ceci n'est pas une lettre "
-                    + "ou n'est pas compris de a à h");
-            System.out.println("Maintenant veuillez enter le numéro de colonne");
+        System.out.println("Veuillez enter la lettre de colonne (de a à h) "
+                + "puis le numero de la ligne");
+
+        pos = scanner.next();
+        while (pos.length() != 2){
+             System.out.println("Attention veuillez d'abord "
+                     + "enter la lettre de la colone "
+                     + "puis la numero de la ligne");
+            pos = scanner.next();
+
         }
-        col = scanner.next();
-        switch (col.charAt(0)) {
+        var col = pos.charAt(0);
+        var lineChar = pos.charAt(1);
+        var linInt = Character.getNumericValue(lineChar);
+        
+
+        while (!(linInt < 9 && linInt > 0)) {
+            System.out.println("Le coordonées entrée ne sont pas valide !"
+                        + " Veuillez essayer avec d'autres");
+
+            pos = scanner.next();
+            if(pos.length() != 2){
+                System.out.println("Le coordonées entrée ne sont pas valide !"
+                        + " Veuillez essayer avec d'autres");
+                pos = scanner.next();
+            }
+            lineChar = pos.charAt(1);
+            linInt = Character.getNumericValue(lineChar);
+            col = pos.charAt(0);
+
+        }
+        lineChar = pos.charAt(1);
+
+        switch (col) {
             case 'a':
                 colInInt = 0;
                 break;
@@ -182,14 +206,8 @@ public class TextView implements View {
                 break;
         }
 
-        System.out.println("Maintenant veuillez d'abord enter le numero de ligne");
-        while (!scanner.hasNextInt()) {
-            scanner.next();
-            System.out.println("Ceci n'est pas un entier");
-            System.out.println("Veuillez enter le numero de ligne");
-        }
-        line = scanner.nextInt() - 1;
-        return new Position(line, colInInt);
+        linInt = linInt - 1;
+        return new Position(linInt, colInInt);
     }
 
     /**
