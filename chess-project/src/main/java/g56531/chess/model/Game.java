@@ -397,20 +397,21 @@ public class Game implements Model {
         }
 
         if (rookPosition.getColumn() == 0) {
-            for (int i = king.getColumn(); 0 < i; --i) {
+            for (int i = king.getColumn() -1; 0 < i; --i) {
                 Position posIsFree = new Position(king.getRow(), i);
-                if (!board.isFree(posIsFree)
-                        || getCapturePositions(oppositePlayer).contains(posIsFree)) {
+                if (getCapturePositions(oppositePlayer).contains(posIsFree)
+                        || !board.isFree(posIsFree)) {
                     return castlingIsPossible;
                 } else {
                     castlingIsPossible = true;
                 }
             }
         } else {
-            for (int i = king.getColumn(); i < 7; ++i) {
+            for (int i = king.getColumn()+ 1; i < 7; ++i) {
                 Position posIsFree = new Position(king.getRow(), i);
-                if (!board.isFree(posIsFree)
-                        || getCapturePositions(oppositePlayer).contains(posIsFree)) {
+                System.out.println(getCapturePositions(oppositePlayer).contains(posIsFree));
+                if (getCapturePositions(oppositePlayer).contains(posIsFree)
+                        || !board.isFree(posIsFree)) {
                     return castlingIsPossible;
                 } else {
                     castlingIsPossible = true;
