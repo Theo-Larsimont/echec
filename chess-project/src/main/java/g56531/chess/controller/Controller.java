@@ -42,7 +42,13 @@ public class Controller {
                 System.out.println("Veuillez choisir le pion que "
                         + " vous allez déplacer ");
                 Position oldPos = view.askPosition();
-
+                if(oldPos.equals(new Position(40,40))){
+                    view.displayError("Vous avez abandonné !");
+                    view.displayError("Vous avez ganger joueur : ");
+                    view.displayWinner();
+                    gameOver = true;
+                    break;
+                }
                 while (!model.isCurrentPlayerPosition(oldPos)) {
                     view.displayError("Pas de pions a vous a cette position");
                     System.out.println("Veuillez choisir le pion que "
