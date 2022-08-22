@@ -679,4 +679,26 @@ public class GameTest {
 
         assertEquals(GameState.CHECK_MATE, game.getState());
     }
+    
+    @Test
+    void testGame_CastlingWithWhite() {
+        Model game = new Game();
+        game.start();
+        move(game, "e2", "e4");
+        move(game, "e7", "e5");
+
+        move(game, "f1", "c4");
+        move(game, "g8", "f6");
+
+        move(game, "g1", "f3");
+        move(game, "f6", "e4");
+
+        assertTrue(game.isValidMove(asPos("e1"), asPos("g1"))); // petit roque possible
+
+        move(game, "d1", "e2");
+        move(game, "e4", "g3");
+
+        assertFalse(game.isValidMove(asPos("e1"), asPos("g1"))); // petit roque impossible
+    }
 }
+

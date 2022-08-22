@@ -18,6 +18,7 @@ import java.util.Objects;
  */
 public abstract class Piece {
     Color color;
+    boolean hasMoved;
 
     /**
      * Contructor of game piece.
@@ -25,6 +26,7 @@ public abstract class Piece {
      */
     public Piece(Color color) {
         this.color = color;
+        this.hasMoved = false;
     }
 
     /**
@@ -33,6 +35,14 @@ public abstract class Piece {
      */
     public Color getColor() {
         return color;
+    }
+
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+    
+    public void move(){
+        this.hasMoved = true;
     }
     
     /**
@@ -73,10 +83,5 @@ public abstract class Piece {
     @Override
     public abstract String toString();
     
-    
-
-
-    
-   
-    
+  
 }

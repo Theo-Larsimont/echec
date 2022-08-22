@@ -135,6 +135,7 @@ public class TextView implements View {
     public void displayPlayer() {
         System.out.println("C'est a vous de jouez : " + model.getCurrentPlayer());
     }
+    
 
     /**
      * requests a valid position on the game board from the user
@@ -150,6 +151,9 @@ public class TextView implements View {
                 + "puis le numero de la ligne");
 
         pos = scanner.next();
+        if(pos.equals("abandon")){
+            return new Position(40,40);
+        }
         while (pos.length() != 2){
              System.out.println("Attention veuillez d'abord "
                      + "enter la lettre de la colone "

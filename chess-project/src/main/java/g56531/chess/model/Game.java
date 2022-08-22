@@ -175,6 +175,9 @@ public class Game implements Model {
             Piece piece = board.getPiece(oldPos);
             board.dropPiece(oldPos);
             board.setPiece(piece, newPos);
+            if(piece instanceof King){
+                deplaceRoqueMove(oldPos, newPos);
+            }
             if (getCapturePositions(getOppositePlayer()).contains(posKing(currentPlayer))) {
                 board.setPiece(piece, oldPos);
                 board.dropPiece(newPos);
@@ -187,8 +190,8 @@ public class Game implements Model {
             }
         }
 
-        board.getPiece(oldPos).move();
-
+        board.getPiece(newPos).move();
+        
         if (check(getCurrentPlayer())) {
 
             if (oneMoreValidMove(getOppositePlayer())) {
@@ -213,9 +216,26 @@ public class Game implements Model {
      */
     @Override
     public List<Position> getPossibleMoves(Position position) {
+        Piece piece = board.getPiece(position);
         List<Position> possibleMove
                 = board.getPiece(position).getPossibleMoves(position, board);
         possibleMove.addAll(board.getPiece(position).getCapturePosition(position, board));
+
+        List<Position> posRook = findTheRook(getCurrentPlayer());
+        if (piece instanceof King) {
+            for (int i = 0; i < posRook.size(); ++i) {
+                if (isCastlingPossible(getCurrentPlayer(), posRook.get(i))) {
+                    possibleMove.addAll(roqueMovePositionKing(getCurrentPlayer(), posRook.get(i)));
+                }
+            }
+        }
+        if (piece instanceof Rook) {
+            for (int i = 0; i < posRook.size(); ++i) {
+                if (isCastlingPossible(getCurrentPlayer(), posRook.get(i))) {
+                    possibleMove.addAll(roqueMovePositionRook(getCurrentPlayer(), position));
+                }
+            }
+        }
         return possibleMove;
 
     }
@@ -370,7 +390,7 @@ public class Game implements Model {
         boolean kingMove = board.getPiece(king).isHasMoved();
         boolean rookMove = board.getPiece(rookPosition).isHasMoved();
 
-        if (kingMove 
+        if (kingMove
                 || rookMove
                 || getState() == GameState.CHECK) {
             return castlingIsPossible;
@@ -382,7 +402,7 @@ public class Game implements Model {
                 if (!board.isFree(posIsFree)
                         || getCapturePositions(oppositePlayer).contains(posIsFree)) {
                     return castlingIsPossible;
-                }else{
+                } else {
                     castlingIsPossible = true;
                 }
             }
@@ -392,12 +412,75 @@ public class Game implements Model {
                 if (!board.isFree(posIsFree)
                         || getCapturePositions(oppositePlayer).contains(posIsFree)) {
                     return castlingIsPossible;
-                }else{
+                } else {
                     castlingIsPossible = true;
                 }
             }
         }
-    
-            return castlingIsPossible;
+
+        return castlingIsPossible;
+    }
+
+    private List<Position> findTheRook(Player player) {
+        List<Position> allPosRook = new ArrayList<>();
+        List<Position> allPiecePos = board.getPositionsOccupiedBy(player);
+
+        for (int i = 0; i < allPiecePos.size(); ++i) {
+            Piece piece = board.getPiece(allPiecePos.get(i));
+            if (piece instanceof Rook) {
+                allPosRook.add(allPiecePos.get(i));
+            }
+        }
+        return allPosRook;
+    }
+
+    private List<Position> roqueMovePositionKing(Player player, Position rookPosition) {
+        List<Position> roqueMove = new ArrayList<>();
+        Position king = posKing(player);
+        if (rookPosition.getColumn() == 0) {
+            roqueMove.add(new Position(king.getRow(), king.getColumn() - 2));
+        } else {
+            roqueMove.add(new Position(king.getRow(), king.getColumn() + 2));
+        }
+
+        return roqueMove;
+    }
+
+    private List<Position> roqueMovePositionRook(Player player, Position rookPosition) {
+        List<Position> roqueMove = new ArrayList<>();
+        Position king = posKing(player);
+        if (rookPosition.getColumn() == 0) {
+            roqueMove.add(new Position(king.getRow(), king.getColumn() - 1));
+        } else {
+            roqueMove.add(new Position(king.getRow(), king.getColumn() + 1));
+        }
+
+        return roqueMove;
+    }
+
+    private void deplaceRoqueMove(Position oldPos, Position newPos) {
+        Color color = getCurrentPlayer().getColor();
+        Piece piece = board.getPiece(oldPos);
+        Piece rook = new Rook(color);
+
+        if (piece instanceof King) {
+            if (newPos == new Position(0, 2)) {
+                board.dropPiece(new Position(0, 0));
+                board.setPiece(rook, new Position(0,3));
+                
+            } else if (newPos == new Position(0, 6)) {
+                board.dropPiece(new Position(0, 7));
+                board.setPiece(rook, new Position(0,5));
+
+            } else if (newPos == new Position(7, 2)) {
+                board.dropPiece(new Position(7, 0));
+                board.setPiece(rook, new Position(7,3));
+
+            } else if (newPos == new Position(7, 6)) {
+                board.dropPiece(new Position(7, 7));
+                board.setPiece(rook, new Position(7,5));
+
+            }
+        }
     }
 }
