@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * brings together the different stages of the game
+ *
  * @author larsi
  */
 public class Game implements Model {
@@ -186,6 +187,8 @@ public class Game implements Model {
             }
         }
 
+        board.getPiece(oldPos).move();
+
         if (check(getCurrentPlayer())) {
 
             if (oneMoreValidMove(getOppositePlayer())) {
@@ -217,7 +220,6 @@ public class Game implements Model {
 
     }
 
-
     /**
      * gives the position of the king of a given player
      *
@@ -225,7 +227,7 @@ public class Game implements Model {
      * @return position of the king
      */
     private Position posKing(Player player) {
-        Position king ;
+        Position king;
         if (player.getColor() == Color.WHITE) {
             king = board.getPiecePosition(whiteKing);
         } else {
@@ -236,6 +238,7 @@ public class Game implements Model {
 
     /**
      * Check if there is still a possible movement
+     *
      * @param player
      * @return true if there is a movement possible
      */
@@ -243,7 +246,7 @@ public class Game implements Model {
         boolean oneMoreMove = false;
         currentPlayer = getOppositePlayer();
         List<Position> allPiecePlayer = board.getPositionsOccupiedBy(player);
-        
+
         for (int i = 0; i < allPiecePlayer.size(); ++i) {
             Position piecePos = allPiecePlayer.get(i);
             List<Position> allMovePosPiece = new ArrayList<>();
@@ -261,8 +264,6 @@ public class Game implements Model {
         currentPlayer = getOppositePlayer();
         return oneMoreMove;
     }
-
-
 
     /**
      * check if there is a possible move
@@ -287,10 +288,10 @@ public class Game implements Model {
 
         return kingCheck;
     }
-    
-    
+
     /**
      * Gives the state of the game
+     *
      * @return state of game
      */
     @Override
@@ -324,7 +325,7 @@ public class Game implements Model {
         board.dropPiece(oldPos);
         board.setPiece(piece, newPos);
         Position posCurrentKing = posKing(player);
-        
+
         if (!getCapturePositions(oppositePlayer).contains(posCurrentKing)) {
             validMove = true;
         }
@@ -360,5 +361,43 @@ public class Game implements Model {
         }
         return capturePosition;
 
+    }
+
+    private boolean isCastlingPossible(Player player, Position rookPosition) {
+        boolean castlingIsPossible = false;
+        Player oppositePlayer = getOppositePlayer();
+        Position king = posKing(getCurrentPlayer());
+        boolean kingMove = board.getPiece(king).isHasMoved();
+        boolean rookMove = board.getPiece(rookPosition).isHasMoved();
+
+        if (kingMove 
+                || rookMove
+                || getState() == GameState.CHECK) {
+            return castlingIsPossible;
+        }
+
+        if (rookPosition.getColumn() == 0) {
+            for (int i = king.getColumn(); 0 < i; --i) {
+                Position posIsFree = new Position(king.getRow(), i);
+                if (!board.isFree(posIsFree)
+                        || getCapturePositions(oppositePlayer).contains(posIsFree)) {
+                    return castlingIsPossible;
+                }else{
+                    castlingIsPossible = true;
+                }
+            }
+        } else {
+            for (int i = king.getColumn(); i < 7; ++i) {
+                Position posIsFree = new Position(king.getRow(), i);
+                if (!board.isFree(posIsFree)
+                        || getCapturePositions(oppositePlayer).contains(posIsFree)) {
+                    return castlingIsPossible;
+                }else{
+                    castlingIsPossible = true;
+                }
+            }
+        }
+    
+            return castlingIsPossible;
     }
 }
